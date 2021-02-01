@@ -1,0 +1,33 @@
+@import "theme";
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background-color: $grass-background;
+  font-family: $font-family;
+  margin: 0;
+}
+
+body,
+button {
+  /* Disable smoothing */
+  font-smooth: never;
+  -webkit-font-smoothing: none;
+}
+
+.App-container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#game {
+  width: 735px;
+  height: 530px;
+  user-select: none;
+}
