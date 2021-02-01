@@ -11,5 +11,6 @@ export async function loadSpritesheet(
     PIXI.Loader.shared.add(resource).load(() => {
       resolve(PIXI.Loader.shared.resources[resource].spritesheet);
     });
+    console.log("wat", PIXI.Loader.shared.resources);
   });
 }

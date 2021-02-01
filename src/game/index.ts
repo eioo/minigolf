@@ -1,17 +1,43 @@
 import * as PIXI from "pixi.js";
-import { loadSpritesheet } from "./spritesheets";
+import { decompressMap } from "./mapLoader";
+import { loadSpritesheet } from "./spritesheet";
+import { parseTrack } from "./track";
 
 export async function gameLoop(app: PIXI.Application) {
-  const elementsTexture = await loadSpritesheet("assets/sprites/elements.json");
+  const res = await fetch("/assets/tracks/1shot.track");
+  const trackStr = await res.text();
+  const track = parseTrack(trackStr);
+  const map = decompressMap(track.mapData);
 
-  for (let y = 0; y < 10; y++) {
-    for (let x = 0; x < 10; x++) {
-      const spr = PIXI.Sprite.from(elementsTexture?.textures["hill-e"]);
-      spr.x += x * 15;
-      spr.y += y * 15;
-      app.stage.addChild(spr);
-    }
-  }
+  const elementsTexture = await loadSpritesheet(
+    "/assets/sprites/elements.json",
+  );
+  const shapesTexture = await loadSpritesheet("/assets/sprites/shapes.json");
+  const elementTextures: PIXI.Texture[] =
+    Object.values(elementsTexture?.textures) || [];
+  const shapeTextures: PIXI.Texture[] =
+    Object.values(elementsTexture?.textures) || [];
 
-  console.log("hello");
+  console.log({ tiles: map.tiles });
+  map.tiles.forEach((rowTiles, x) => {
+    rowTiles.forEach((tile, i) => {
+      if (tile.backgroundElementIndex) {
+        const bgSprite = PIXI.Sprite.from(
+          elementTextures[tile.backgroundElementIndex],
+        );
+        bgSprite.x += x * 15;
+        bgSprite.y += i * 15;
+        app.stage.addChild(bgSprite);
+      }
+
+      if (tile.foregroundElementIndex) {
+        const fgSprite = PIXI.Sprite.from(
+          elementTextures[tile.foregroundElementIndex],
+        );
+        fgSprite.x += x * 15;
+        fgSprite.y += i * 15;
+        app.stage.addChild(fgSprite);
+      }
+    });
+  });
 }
