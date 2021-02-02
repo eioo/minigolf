@@ -1,7 +1,23 @@
 class Tile {
-  shapeIndex: number;
-  backgroundElementIndex: number;
-  foregroundElementIndex: number;
+  /**
+   * Shape element index
+   */
+  shape: number;
+  /**
+   * Foreground element index
+   */
+  foreground: number;
+  /**
+   * Background element index
+   */
+  background: number;
+  /**
+   * Is special tile?
+   */
+  isSpecial: boolean;
+  /**
+   * Not sure what this is, but it decides what `isSpecial` will become
+   */
   isSpecialNum: number;
 
   constructor(
@@ -10,43 +26,39 @@ class Tile {
     foreground: number,
     isSpecialNum: number,
   ) {
-    this.shapeIndex = shape;
-    this.backgroundElementIndex = background;
-    this.foregroundElementIndex = foreground;
+    this.shape = shape;
+    this.foreground = background;
+    this.background = foreground;
+    this.isSpecial = isSpecialNum === 2;
     this.isSpecialNum = isSpecialNum;
-  }
-
-  public isSpecial(): boolean {
-    return this.isSpecialNum == 2;
   }
 
   public isStartPosition(): boolean {
     return (
-      this.isSpecial() &&
-      (this.shapeIndex == 0 || (this.shapeIndex >= 21 && this.shapeIndex <= 24))
+      this.isSpecial &&
+      (this.shape == 0 || (this.shape >= 21 && this.shape <= 24))
     );
   }
 
   public isHole(): boolean {
-    return this.isSpecial() && this.shapeIndex == 1;
+    return this.isSpecial && this.shape == 1;
   }
 
   public isPassable(): boolean {
     return !(
-      !this.isSpecial() &&
-      (this.backgroundElementIndex == 12 ||
-        this.backgroundElementIndex == 13 ||
-        (this.backgroundElementIndex >= 16 &&
-          this.backgroundElementIndex <= 18))
+      !this.isSpecial &&
+      (this.foreground == 12 ||
+        this.foreground == 13 ||
+        (this.foreground >= 16 && this.foreground <= 18))
     );
   }
 
   public getTileCode(): number {
     return (
       (this.isSpecialNum << 24) |
-      (this.shapeIndex << 16) |
-      (this.backgroundElementIndex << 8) |
-      this.foregroundElementIndex
+      (this.shape << 16) |
+      (this.foreground << 8) |
+      this.background
     );
   }
 }

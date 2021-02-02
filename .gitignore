@@ -5,3 +5,4 @@ dist-ssr
 *.local
 public/assets/**/*.gif
 public/assets/**/*.jpg
+public/assets/**/*.png
