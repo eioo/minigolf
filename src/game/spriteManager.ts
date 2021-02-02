@@ -13,3 +13,6 @@ export async function loadSpritesheet(
     });
   });
 }
+export const spriteManager = {
+  preload: () => {},
+};
