@@ -1,6 +1,7 @@
 import * as PIXI from "pixi.js";
 import React, { useEffect, useRef, useState } from "react";
-import { gameLoop } from "../../game";
+import { startGame } from "../../game";
+import { GAME_HEIGHT, GAME_WIDTH } from "../../game/contants";
 import "./styles.scss";
 
 function GameCanvas() {
@@ -12,12 +13,12 @@ function GameCanvas() {
       return;
     }
     const app = new PIXI.Application({
-      height: 375,
-      width: 735,
+      width: GAME_WIDTH,
+      height: GAME_HEIGHT,
       view: canvasRef.current,
       backgroundColor: 0x16aa16,
     });
-    gameLoop(app);
+    startGame(app);
     setApp(app);
 
     return () => {
