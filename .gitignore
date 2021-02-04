@@ -6,3 +6,4 @@ dist-ssr
 public/assets/**/*.gif
 public/assets/**/*.jpg
 public/assets/**/*.png
+public/assets/**/*.track

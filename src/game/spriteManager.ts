@@ -16,3 +16,21 @@ export async function loadSpritesheet(
 export const spriteManager = {
   preload: () => {},
 };
+
+export async function loadAllTextures() {
+  const load = async (texture: string): Promise<PIXI.Texture[]> => {
+    const spritesheet = await loadSpritesheet(
+      `/assets/sprites/${texture}.json`,
+    );
+    return Object.values(spritesheet?.textures) || [];
+  };
+
+  const textures = {
+    shapes: await load("shapes"),
+    elements: await load("elements"),
+    balls: await load("balls"),
+    special: await load("special"),
+  } as const;
+
+  return textures;
+}

@@ -33,18 +33,18 @@ class Tile {
     this.isSpecialNum = isSpecialNum;
   }
 
-  public isStartPosition(): boolean {
+  public get isStartPosition(): boolean {
     return (
       this.isSpecial &&
       (this.shape == 0 || (this.shape >= 21 && this.shape <= 24))
     );
   }
 
-  public isHole(): boolean {
+  public get isHole(): boolean {
     return this.isSpecial && this.shape == 1;
   }
 
-  public isPassable(): boolean {
+  public get isPassable(): boolean {
     return !(
       !this.isSpecial &&
       (this.foreground == 12 ||
