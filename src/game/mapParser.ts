@@ -66,6 +66,7 @@ function parseExpandedData(expandedMapData: string) {
   }
   return tileCodes;
 }
+
 function getExpandAmount(input: string, cursor: number): number {
   let buffer = "";
 
@@ -131,8 +132,15 @@ function convertToTiles(mapCodes: number[][]) {
   return result;
 }
 
-export function decompressMap(mapData: string) {
-  const expandedMapData = expandData(mapData);
+export interface MinigolfMap {
+  tiles: Tile[][];
+  height: 25;
+  width: 49;
+}
+
+export function decompressMap(mapData: string): MinigolfMap {
+  // Old maps have categories appended after map data divided by ,
+  const expandedMapData = expandData(mapData.split(",")[0]);
   const tileCodes = parseExpandedData(expandedMapData);
   const tiles = convertToTiles(tileCodes);
   return {
