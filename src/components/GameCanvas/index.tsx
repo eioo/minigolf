@@ -1,30 +1,20 @@
-import * as PIXI from "pixi.js";
 import React, { useEffect, useRef, useState } from "react";
-import { startGame } from "../../game";
-import { GAME_HEIGHT, GAME_WIDTH } from "../../game/contants";
+import { Game, startGame } from "../../game";
 import "./styles.scss";
 
 function GameCanvas() {
-  const [app, setApp] = useState<PIXI.Application>();
+  const [game, setGame] = useState<Game>();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
-    if (!canvasRef.current) {
-      return;
-    }
-    const app = new PIXI.Application({
-      width: GAME_WIDTH,
-      height: GAME_HEIGHT,
-      view: canvasRef.current,
-      backgroundColor: 0x16aa16,
-    });
-    startGame(app);
-    setApp(app);
-
-    return () => {
-      app.stop();
-    };
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    startGame(canvas).then(setGame);
   }, [canvasRef]);
+
+  useEffect(() => {
+    return () => game?.cleanUp();
+  }, [game]);
 
   return (
     <canvas ref={canvasRef} className="game-canvas" width={735} height={375} />
