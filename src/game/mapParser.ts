@@ -1,4 +1,5 @@
-import Tile from "./tile";
+import { createMap } from "./minigolfMap";
+import { createTile, Tile } from "./tile";
 
 const mapChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
@@ -120,7 +121,7 @@ function convertToTiles(mapCodes: number[][]) {
         result[x] = [];
       }
 
-      result[x][y] = new Tile(
+      result[x][y] = createTile(
         shapeIndex,
         foregroundIndex,
         backgroundIndex,
@@ -134,8 +135,8 @@ function convertToTiles(mapCodes: number[][]) {
 
 export interface MinigolfMap {
   tiles: Tile[][];
-  height: 25;
-  width: 49;
+  height: number;
+  width: number;
 }
 
 export function decompressMap(mapData: string): MinigolfMap {
@@ -143,9 +144,5 @@ export function decompressMap(mapData: string): MinigolfMap {
   const expandedMapData = expandData(mapData.split(",")[0]);
   const tileCodes = parseExpandedData(expandedMapData);
   const tiles = convertToTiles(tileCodes);
-  return {
-    tiles,
-    height: 25,
-    width: 49,
-  };
+  return createMap(tiles);
 }

@@ -1,4 +1,4 @@
-class Tile {
+export interface Tile {
   /**
    * Shape element index
    */
@@ -15,52 +15,54 @@ class Tile {
    * Is special tile?
    */
   isSpecial: boolean;
-  /**
-   * Not sure what this is, but it decides what `isSpecial` will become
-   */
-  isSpecialNum: number;
-
-  constructor(
-    shape: number,
-    background: number,
-    foreground: number,
-    isSpecialNum: number,
-  ) {
-    this.shape = shape;
-    this.foreground = background;
-    this.background = foreground;
-    this.isSpecial = isSpecialNum === 2;
-    this.isSpecialNum = isSpecialNum;
-  }
-
-  public get isStartPosition(): boolean {
-    return (
-      this.isSpecial &&
-      (this.shape == 0 || (this.shape >= 21 && this.shape <= 24))
-    );
-  }
-
-  public get isHole(): boolean {
-    return this.isSpecial && this.shape == 1;
-  }
-
-  public get isPassable(): boolean {
-    return !(
-      !this.isSpecial &&
-      (this.foreground == 12 ||
-        this.foreground == 13 ||
-        (this.foreground >= 16 && this.foreground <= 18))
-    );
-  }
-
-  public getTileCode(): number {
-    return (
-      (this.isSpecialNum << 24) |
-      (this.shape << 16) |
-      (this.foreground << 8) |
-      this.background
-    );
-  }
+  isStartPosition: boolean;
+  isHole: boolean;
+  isPassable: boolean;
+  tileCode: number;
 }
 
-export default Tile;
+export function createTile(
+  /**
+   * Shape element index
+   */ shape: number,
+  /**
+   * Foreground element index
+   */
+  foreground: number,
+  /**
+   * Background element index
+   */
+  background: number,
+  /**
+   * Is special tile?
+   */
+  isSpecialNum: number,
+): Tile {
+  const isSpecial = isSpecialNum === 2;
+
+  return {
+    shape,
+    foreground,
+    background,
+    isSpecial,
+    get isStartPosition(): boolean {
+      return isSpecial && (shape == 0 || (shape >= 21 && shape <= 24));
+    },
+    get tileCode(): number {
+      return (
+        (isSpecialNum << 24) | (shape << 16) | (foreground << 8) | background
+      );
+    },
+    get isHole(): boolean {
+      return isSpecial && shape == 1;
+    },
+    get isPassable(): boolean {
+      return !(
+        !isSpecial &&
+        (foreground === 12 ||
+          foreground === 13 ||
+          (foreground >= 16 && foreground <= 18))
+      );
+    },
+  };
+}
