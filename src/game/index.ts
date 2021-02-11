@@ -1,78 +1,57 @@
-import * as PIXI from "pixi.js";
-import { GAME_HEIGHT, GAME_WIDTH, TILE_SIZE } from "./contants";
 import { decompressMap, MinigolfMap } from "./mapParser";
 import { renderMap } from "./renderer";
+import { loadSpritesheets } from "./spriteManager";
 import { parseTrack } from "./track";
 
-export async function startGame(app: PIXI.Application) {
+export interface Game {
+  loadTrack: (mapName: string) => void;
+  cleanUp: () => void;
+}
+
+export async function startGame(canvas: HTMLCanvasElement): Promise<Game> {
+  const ctx = canvas.getContext("2d");
+
+  if (!ctx) {
+    throw new Error("Could not get canvas drawing context");
+  }
+
   let currentMap: MinigolfMap;
 
   const loadTrack = async (mapName: string) => {
-    app.stage.removeChildren();
     const res = await fetch(`/assets/tracks/${mapName}.track`);
     const trackStr = await res.text();
     const track = parseTrack(trackStr);
     currentMap = decompressMap(track.mapData);
-    await renderMap(app, currentMap);
+    await renderMap(ctx, currentMap);
   };
 
-  const debugText = new PIXI.Text("", {
-    fontFamily: "Arial",
-    fontSize: 15,
-    fontWeight: "bold",
-    fill: 0xff1010,
-  });
-  app.stage.addChild(debugText);
+  await loadSpritesheets(ctx, [
+    ["balls", 8, 4, 13, 13],
+    ["elements", 24, 4, 15, 15],
+    ["shapes", 28, 4, 15, 15],
+    ["special", 28, 4, 15, 15],
+  ]);
 
-  app.ticker.add(() => {
-    if (!currentMap) {
-      return;
-    }
-
-    const globalMouse = app.renderer.plugins.interaction.mouse.global;
-    const mouseX = globalMouse.x;
-    const mouseY = globalMouse.y;
-
-    if (
-      mouseX > 0 &&
-      mouseX < GAME_WIDTH &&
-      mouseY > 0 &&
-      mouseY < GAME_HEIGHT
-    ) {
-      const tileX = Math.floor(mouseX / TILE_SIZE);
-      const tileY = Math.floor(mouseY / TILE_SIZE);
-      const tile = currentMap.tiles[tileX][tileY];
-      debugText.visible = true;
-      debugText.x = mouseX + 15;
-      debugText.y = mouseY - 50;
-      const debugData = [
-        [tileX, tileY],
-        ["BG:", tile.background],
-        ["FG:", tile.foreground],
-        ["Special:", tile.isSpecial],
-        ["Passable:", tile.isPassable],
-        ["isStartPos:", tile.isStartPosition],
-      ];
-
-      debugText.text = debugData.map((n) => n.join(" ")).join("\n");
-    } else {
-      debugText.visible = false;
-    }
-  });
+  let trackChangeInterval: number;
 
   fetch("/assets/tracks/tracks.json")
     .then((r) => r.json())
     .then(async (tracks: string[]) => {
       const sortedTracks = tracks.sort();
       let currentIndex = 0;
-
-      setInterval(() => {
+      const nextTrack = () => {
         loadTrack(sortedTracks[currentIndex]);
         currentIndex++;
-      }, 750);
+      };
+      trackChangeInterval = setInterval(() => nextTrack(), 750);
+      nextTrack();
     });
 
   return {
     loadTrack,
+    cleanUp: () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      clearInterval(trackChangeInterval);
+    },
   };
 }

@@ -1,64 +1,94 @@
-import * as PIXI from "pixi.js";
+import { rgbToLong } from "../utils/color";
 import { TILE_SIZE } from "./contants";
 import { MinigolfMap } from "./mapParser";
-import { loadAllTextures } from "./spriteManager";
+import { spriteManager } from "./spriteManager";
 
-export async function renderMap(app: PIXI.Application, map: MinigolfMap) {
-  const textures = await loadAllTextures();
+export async function renderMap(
+  ctx: CanvasRenderingContext2D,
+  map: MinigolfMap,
+) {
+  ctx.clearRect(0, 0, map.width * 15, map.height * 15);
 
-  const drawAt = (texture: PIXI.Texture, x: number, y: number) => {
-    const sprite = PIXI.Sprite.from(texture);
-    sprite.x += x;
-    sprite.y += y;
-    app.stage.addChild(sprite);
-  };
-
-  for (let y = 0; y < map.height; y++) {
-    for (let x = 0; x < map.width; x++) {
-      const tile = map.tiles[x][y];
+  for (let tileY = 0; tileY < map.height; tileY++) {
+    for (let tileX = 0; tileX < map.width; tileX++) {
+      const tile = map.tiles[tileX][tileY];
       const { background, foreground, shape, isSpecial } = tile;
 
-      const drawAtX = x * TILE_SIZE;
-      const drawAtY = y * TILE_SIZE;
+      const drawAtX = tileX * TILE_SIZE;
+      const drawAtY = tileY * TILE_SIZE;
 
       if (isSpecial || shape === 0) {
-        drawAt(textures.elements[background], drawAtX, drawAtY);
-        drawAt(textures.elements[foreground], drawAtX, drawAtY);
+        spriteManager.elements[background].draw(ctx, drawAtX, drawAtY);
+        spriteManager.elements[foreground].draw(ctx, drawAtX, drawAtY);
 
         if (isSpecial && shape !== 4 && shape !== 6) {
           // 4 and 6 are mines
+          const foregroundPixels = ctx.getImageData(drawAtX, drawAtY, 15, 15)
+            .data;
+
           if (shape === 0 || (shape >= 24 && shape <= 27)) {
             // Draw ball
-            drawAt(
-              textures.balls[shape === 0 ? 0 : shape - 24],
-              drawAtX + 1, // Balls are 13x13
+            spriteManager.balls[shape === 0 ? 0 : shape - 24].draw(
+              ctx,
+              drawAtX + 1,
               drawAtY + 1,
             );
           } else {
             // Draw specials (Holes, teleports...)
-            drawAt(textures.special[shape], drawAtX, drawAtY);
+            spriteManager.special[shape].draw(ctx, drawAtX, drawAtY);
           }
+
+          const tileImageData = ctx.getImageData(drawAtX, drawAtY, 15, 15);
+          const tilePixels = tileImageData.data;
+          for (let i = 0; i < tilePixels.length; i += 4) {
+            if (
+              rgbToLong(tilePixels[i], tilePixels[i + 1], tilePixels[i + 2]) ==
+                0xccccff ||
+              tilePixels[i + 3] == 0
+            ) {
+              tileImageData.data[i] = foregroundPixels[i];
+              tileImageData.data[i + 1] = foregroundPixels[i + 1];
+              tileImageData.data[i + 2] = foregroundPixels[i + 2];
+              tileImageData.data[i + 3] = foregroundPixels[i + 3];
+            }
+          }
+
+          ctx.putImageData(tileImageData, drawAtX, drawAtY);
         }
       } else if (!isSpecial && shape > 0) {
-        // Render background
-        const bgSprite = PIXI.Sprite.from(textures.elements[background]);
-        bgSprite.x = drawAtX;
-        bgSprite.y = drawAtY;
-        app.stage.addChild(bgSprite);
+        const sw = spriteManager.shapes[shape].width;
+        const sh = spriteManager.shapes[shape].height;
 
-        // Render
-        const fgContainer = new PIXI.Container();
-        const fgSprite = PIXI.Sprite.from(textures.elements[foreground]);
-        fgContainer.addChild(fgSprite);
-        fgContainer.x = drawAtX;
-        fgContainer.y = drawAtY;
+        spriteManager.elements[background].draw(ctx, drawAtX, drawAtY);
+        const pixelsBg = ctx.getImageData(drawAtX, drawAtY, sw, sh).data;
 
-        const shapeMask = PIXI.Sprite.from(textures.shapes[shape]);
-        shapeMask.x = drawAtX;
-        shapeMask.y = drawAtY;
-        fgContainer.mask = shapeMask;
-        app.stage.addChild(shapeMask);
-        app.stage.addChild(fgContainer);
+        spriteManager.elements[foreground].draw(ctx, drawAtX, drawAtY);
+        const pixelsFg = ctx.getImageData(drawAtX, drawAtY, sw, sh).data;
+
+        spriteManager.shapes[shape].draw(ctx, drawAtX, drawAtY);
+
+        const tileImageData = ctx.getImageData(drawAtX, drawAtY, sw, sh);
+        const tilePixels = tileImageData.data;
+
+        for (let i = 0; i < tilePixels.length; i += 4) {
+          const colour = rgbToLong(
+            tilePixels[i],
+            tilePixels[i + 1],
+            tilePixels[i + 2],
+          );
+          if (colour == 0xccccff) {
+            tileImageData.data[i] = pixelsFg[i];
+            tileImageData.data[i + 1] = pixelsFg[i + 1];
+            tileImageData.data[i + 2] = pixelsFg[i + 2];
+            tileImageData.data[i + 3] = pixelsFg[i + 3];
+          } else if (colour == 0) {
+            tileImageData.data[i] = pixelsBg[i];
+            tileImageData.data[i + 1] = pixelsBg[i + 1];
+            tileImageData.data[i + 2] = pixelsBg[i + 2];
+            tileImageData.data[i + 3] = pixelsBg[i + 3];
+          }
+        }
+        ctx.putImageData(tileImageData, drawAtX, drawAtY);
       }
     }
   }
