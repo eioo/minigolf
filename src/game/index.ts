@@ -1,3 +1,5 @@
+import { GAME_HEIGHT, GAME_WIDTH } from "./contants";
+import { drawDashedLine, drawLine } from "./draw";
 import { decompressMap, MinigolfMap } from "./mapParser";
 import { renderMap } from "./renderer";
 import { loadSpritesheets } from "./spriteManager";
@@ -8,10 +10,14 @@ export interface Game {
   cleanUp: () => void;
 }
 
-export async function startGame(canvas: HTMLCanvasElement): Promise<Game> {
+export async function startGame(
+  canvas: HTMLCanvasElement,
+  cursorCanvas: HTMLCanvasElement,
+): Promise<Game> {
   const ctx = canvas.getContext("2d");
+  const cursorCtx = cursorCanvas.getContext("2d");
 
-  if (!ctx) {
+  if (!ctx || !cursorCtx) {
     throw new Error("Could not get canvas drawing context");
   }
 
@@ -38,14 +44,39 @@ export async function startGame(canvas: HTMLCanvasElement): Promise<Game> {
     .then((r) => r.json())
     .then(async (tracks: string[]) => {
       const sortedTracks = tracks.sort();
-      let currentIndex = 0;
-      const nextTrack = () => {
+      /* let currentIndex = 0; */
+      loadTrack(sortedTracks[0]);
+
+      /*  const nextTrack = () => {
         loadTrack(sortedTracks[currentIndex]);
         currentIndex++;
       };
       trackChangeInterval = setInterval(() => nextTrack(), 750);
-      nextTrack();
+      nextTrack(); */
     });
+
+  const midX = Math.floor(GAME_WIDTH / 2);
+  const midY = Math.floor(GAME_HEIGHT / 2);
+
+  const cursorImgData = cursorCtx.getImageData(
+    0,
+    0,
+    cursorCanvas.width,
+    cursorCanvas.height,
+  );
+
+  cursorCanvas.addEventListener("mousemove", (e) => {
+    cursorImgData.data.fill(0);
+    drawLine(cursorImgData, midX, midY, e.offsetX, e.offsetY);
+    drawDashedLine(
+      cursorImgData,
+      midX,
+      midY,
+      -(e.offsetX - midX),
+      -(e.offsetY - midY),
+    );
+    cursorCtx.putImageData(cursorImgData, 0, 0);
+  });
 
   return {
     loadTrack,
