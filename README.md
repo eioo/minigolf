@@ -12,7 +12,7 @@ You need to download few assets from another repository.
 
 2. Copy all sprites from `assets/res/AGolf/picture/` to this project `public/assets/sprites/` directory.
 
-3. Copy all tracks from `tracks/` to this project `public/assets/sprites/` directory.
+3. Copy all tracks from `tracks/` to this project `public/assets/tracks/` directory.
 
 4. Run following commands:
 
