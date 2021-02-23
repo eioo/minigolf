@@ -1,16 +1,26 @@
 # Minigolf
 
-Aapeli Minigolf remake. Assets not included.
+Remake of the past Playforia.net/Aapeli.com minigolf
 
-## Running
+## Getting started
 
-<strike>Download `assets/` directory from [PhilippvK/playforia-minigolf](https://github.com/PhilippvK/playforia-minigolf), extract contents to this project's `assets/` directory.</strike>
+You need to download few assets from another repository.
 
-Assets have been modified from [PhilippvK/playforia-minigolf](https://github.com/PhilippvK/playforia-minigolf), proper pre-processing is still in progress. Contact [eioo](this repository owner) for compatible assets.
+### Installation
 
-Then run:
+1. Clone this repository: [PhilippvK/playforia-minigolf](https://github.com/PhilippvK/playforia-minigolf)
 
-```
-yarn install
-yarn dev
-```
+2. Copy all sprites from `assets/res/AGolf/picture/` to this project `public/assets/sprites/` directory.
+
+3. Copy all tracks from `tracks/` to this project `public/assets/sprites/` directory.
+
+4. Run following commands:
+
+   ```
+   yarn install
+   yarn dev
+   ```
+
+## License
+
+Distributed under the MIT License. See LICENSE for more information.
