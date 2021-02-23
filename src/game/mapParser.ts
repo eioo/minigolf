@@ -1,4 +1,4 @@
-import { createMap } from "./minigolfMap";
+import { createMap, MinigolfMap } from "./minigolfMap";
 import { createTile, Tile } from "./tile";
 
 const mapChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -131,12 +131,6 @@ function convertToTiles(mapCodes: number[][]) {
   }
 
   return result;
-}
-
-export interface MinigolfMap {
-  tiles: Tile[][];
-  height: number;
-  width: number;
 }
 
 export function decompressMap(mapData: string): MinigolfMap {
