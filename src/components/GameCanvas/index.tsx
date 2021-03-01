@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Game, startGame } from "../../game";
-import { GAME_HEIGHT, GAME_WIDTH } from "../../game/contants";
+import { GAME_HEIGHT, GAME_WIDTH } from "../../game/constants";
 import "./styles.scss";
 
 function GameCanvas() {
