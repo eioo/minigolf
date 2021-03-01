@@ -1,12 +1,16 @@
 import { rgbToLong } from "../utils/color";
-import { TILE_SIZE } from "./contants";
-import { MinigolfMap } from "./mapParser";
+import { HALF_BALL, TILE_SIZE } from "./constants";
+import { drawDashedLine, drawLine } from "./draw";
+import { MinigolfMap } from "./minigolfMap";
+import { getStrokePower } from "./physics";
 import { spriteManager } from "./spriteManager";
 
 export async function renderMap(
   ctx: CanvasRenderingContext2D,
   map: MinigolfMap,
 ) {
+  let startPositions: number[][] = [];
+
   ctx.clearRect(0, 0, map.width * 15, map.height * 15);
 
   for (let tileY = 0; tileY < map.height; tileY++) {
@@ -27,12 +31,10 @@ export async function renderMap(
             .data;
 
           if (shape === 0 || (shape >= 24 && shape <= 27)) {
-            // Draw ball
-            spriteManager.balls[shape === 0 ? 0 : shape - 24].draw(
-              ctx,
-              drawAtX + 1,
-              drawAtY + 1,
-            );
+            // Is starting position
+            startPositions.push([drawAtX, drawAtY]);
+            continue;
+            // const playerId = shape === 0 ? 0 : shape - 24;
           } else {
             // Draw specials (Holes, teleports...)
             spriteManager.special[shape].draw(ctx, drawAtX, drawAtY);
@@ -92,4 +94,115 @@ export async function renderMap(
       }
     }
   }
+
+  return {
+    startPositions,
+  };
+}
+
+export const tileToDrawPosition = (tileX: number, tileY: number) =>
+  [Math.floor(tileX * TILE_SIZE), Math.floor(tileY * TILE_SIZE)] as const;
+
+export const drawBall = (
+  ctx: CanvasRenderingContext2D,
+  playerId: number,
+  playerX: number,
+  playerY: number,
+) => {
+  const foregroundPixels = ctx.getImageData(playerX, playerY, 15, 15).data;
+  spriteManager.balls[playerId].draw(ctx, playerX + 1, playerY + 1);
+
+  const tileImageData = ctx.getImageData(playerX, playerY, 15, 15);
+  const tilePixels = tileImageData.data;
+  for (let i = 0; i < tilePixels.length; i += 4) {
+    if (
+      rgbToLong(tilePixels[i], tilePixels[i + 1], tilePixels[i + 2]) ==
+        0xccccff ||
+      tilePixels[i + 3] == 0
+    ) {
+      tileImageData.data[i] = foregroundPixels[i];
+      tileImageData.data[i + 1] = foregroundPixels[i + 1];
+      tileImageData.data[i + 2] = foregroundPixels[i + 2];
+      tileImageData.data[i + 3] = foregroundPixels[i + 3];
+    }
+  }
+
+  ctx.putImageData(tileImageData, playerX, playerY);
+};
+
+export function drawAimLine(
+  ctx: CanvasRenderingContext2D,
+  imgData: ImageData,
+  playerX: number,
+  playerY: number,
+  mouseX: number,
+  mouseY: number,
+  shootingMode: number,
+) {
+  if (
+    playerX === undefined ||
+    playerY === undefined ||
+    mouseX === undefined ||
+    mouseY === undefined
+  ) {
+    return console.warn("No data for drawing aim line", {
+      playerX,
+      playerY,
+      mouseX,
+      mouseY,
+    });
+  }
+
+  imgData.data.fill(0);
+  const power = getStrokePower(playerX, playerY, mouseX, mouseY);
+
+  //ball
+  const x1 = playerX + HALF_BALL + 0.5;
+  const y1 = playerY + HALF_BALL + 0.5;
+
+  //stroke power
+  const x2 = playerX + (power[0] * 200.0) / 6.5 + 0.5;
+  const y2 = playerY + (power[1] * 200.0) / 6.5 + 0.5;
+
+  if (shootingMode === 0) {
+    drawLine(
+      imgData,
+      Math.round(x1),
+      Math.round(y1),
+      Math.round(x2),
+      Math.round(y2),
+    );
+  } else {
+    let deltaX = x2 - x1;
+    let deltaY = y2 - y1;
+    drawDashedLine(imgData, x1, y1, deltaX, deltaY);
+
+    if (shootingMode == 1) {
+      deltaX = -deltaX;
+      deltaY = -deltaY;
+    }
+
+    let oldX;
+
+    if (shootingMode == 2) {
+      oldX = deltaX;
+      deltaX = deltaY;
+      deltaY = -oldX;
+    }
+
+    if (shootingMode == 3) {
+      oldX = deltaX;
+      deltaX = -deltaY;
+      deltaY = oldX;
+    }
+
+    drawLine(
+      imgData,
+      Math.round(x1),
+      Math.round(y1),
+      Math.round(x1 + deltaX),
+      Math.round(y1 + deltaY),
+    );
+  }
+  ctx.putImageData(imgData, 0, 0);
 }
