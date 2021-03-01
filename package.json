@@ -1,6 +1,10 @@
 {
   "name": "minigolf",
+  "description": "Remake of the past Playforia.net/Aapeli.com minigolf",
   "version": "0.0.0",
+  "repository": "github:eioo/minigolf",
+  "bugs": "https://github.com/eioo/minigolf/issues",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
