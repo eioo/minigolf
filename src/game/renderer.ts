@@ -1,12 +1,9 @@
-import { rgbToLong } from "../utils/color";
-import { TILE_SIZE } from "./contants";
-import { MinigolfMap } from "./mapParser";
-import { spriteManager } from "./spriteManager";
+import { rgbToLong } from '../utils/color';
+import { TILE_SIZE } from './constants';
+import { MinigolfMap } from './mapParser';
+import { spriteManager } from './spriteManager';
 
-export async function renderMap(
-  ctx: CanvasRenderingContext2D,
-  map: MinigolfMap,
-) {
+export async function renderMap(ctx: CanvasRenderingContext2D, map: MinigolfMap) {
   ctx.clearRect(0, 0, map.width * 15, map.height * 15);
 
   for (let tileY = 0; tileY < map.height; tileY++) {
@@ -23,16 +20,11 @@ export async function renderMap(
 
         if (isSpecial && shape !== 4 && shape !== 6) {
           // 4 and 6 are mines
-          const foregroundPixels = ctx.getImageData(drawAtX, drawAtY, 15, 15)
-            .data;
+          const foregroundPixels = ctx.getImageData(drawAtX, drawAtY, 15, 15).data;
 
           if (shape === 0 || (shape >= 24 && shape <= 27)) {
             // Draw ball
-            spriteManager.balls[shape === 0 ? 0 : shape - 24].draw(
-              ctx,
-              drawAtX + 1,
-              drawAtY + 1,
-            );
+            spriteManager.balls[shape === 0 ? 0 : shape - 24].draw(ctx, drawAtX + 1, drawAtY + 1);
           } else {
             // Draw specials (Holes, teleports...)
             spriteManager.special[shape].draw(ctx, drawAtX, drawAtY);
@@ -41,11 +33,7 @@ export async function renderMap(
           const tileImageData = ctx.getImageData(drawAtX, drawAtY, 15, 15);
           const tilePixels = tileImageData.data;
           for (let i = 0; i < tilePixels.length; i += 4) {
-            if (
-              rgbToLong(tilePixels[i], tilePixels[i + 1], tilePixels[i + 2]) ==
-                0xccccff ||
-              tilePixels[i + 3] == 0
-            ) {
+            if (rgbToLong(tilePixels[i], tilePixels[i + 1], tilePixels[i + 2]) == 0xccccff || tilePixels[i + 3] == 0) {
               tileImageData.data[i] = foregroundPixels[i];
               tileImageData.data[i + 1] = foregroundPixels[i + 1];
               tileImageData.data[i + 2] = foregroundPixels[i + 2];
@@ -71,11 +59,7 @@ export async function renderMap(
         const tilePixels = tileImageData.data;
 
         for (let i = 0; i < tilePixels.length; i += 4) {
-          const colour = rgbToLong(
-            tilePixels[i],
-            tilePixels[i + 1],
-            tilePixels[i + 2],
-          );
+          const colour = rgbToLong(tilePixels[i], tilePixels[i + 1], tilePixels[i + 2]);
           if (colour == 0xccccff) {
             tileImageData.data[i] = pixelsFg[i];
             tileImageData.data[i + 1] = pixelsFg[i + 1];
