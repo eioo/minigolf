@@ -46,7 +46,7 @@ export async function startGame(
   };
 
   const loadTrack = async (mapName: string) => {
-    console.log(`Loading track "${mapName}""`);
+    console.debug(`Loading track "${mapName}""`);
 
     // Fetch map
     const res = await fetch(`/assets/tracks/${mapName}.track`);
