@@ -15,5 +15,5 @@ declare var game: {
   gameBusy: boolean;
   cursorImgData: ImageData;
   mod: 0 | 1 | 2 | 3;
-  currentMap: import("./minigolfMap").MinigolfMap | null;
+  currentMap: import('./minigolfMap').MinigolfMap | null;
 };

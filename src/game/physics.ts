@@ -1,12 +1,12 @@
-import { HALF_BALL } from "./constants";
-import { shootDrawLoop } from "./renderer";
+import { HALF_BALL } from './constants';
+import { shootDrawLoop } from './renderer';
 
 /**
  * Sets player X position (px)
  * @param playerId
  * @param px
  */
-export function setPlayerX(playerId: number, px: number) {
+export function setPlayerX(playerId: number, px: number): void {
   globalThis.game.playerX[playerId] = px;
 }
 
@@ -15,7 +15,7 @@ export function setPlayerX(playerId: number, px: number) {
  * @param playerId
  * @param px
  */
-export function setPlayerY(playerId: number, px: number) {
+export function setPlayerY(playerId: number, px: number): void {
   globalThis.game.playerY[playerId] = px;
 }
 
@@ -25,7 +25,7 @@ export function setPlayerY(playerId: number, px: number) {
  * @param x
  * @param y
  */
-export function setPlayerPos(playerId: number, x: number, y: number) {
+export function setPlayerPos(playerId: number, x: number, y: number): void {
   setPlayerX(playerId, x);
   setPlayerY(playerId, y);
 }
@@ -36,7 +36,7 @@ export function setPlayerPos(playerId: number, x: number, y: number) {
  * @param x
  * @param y
  */
-export function setPlayerPosRel(playerId: number, x: number, y: number) {
+export function setPlayerPosRel(playerId: number, x: number, y: number): void {
   const [oldX, oldY] = getPlayerPos(playerId);
   setPlayerX(playerId, oldX + x);
   setPlayerY(playerId, oldY + y);
@@ -46,7 +46,7 @@ export function setPlayerPosRel(playerId: number, x: number, y: number) {
  * @param playerId
  * @returns Player X position
  */
-export function getPlayerX(playerId: number) {
+export function getPlayerX(playerId: number): number {
   return game.playerX[playerId];
 }
 
@@ -54,7 +54,7 @@ export function getPlayerX(playerId: number) {
  * @param playerId
  * @returns Player Y position
  */
-export function getPlayerY(playerId: number) {
+export function getPlayerY(playerId: number): number {
   return game.playerY[playerId];
 }
 
@@ -62,15 +62,14 @@ export function getPlayerY(playerId: number) {
  * @param playerId
  * @returns `[number, number]` array of player position (pixels)
  */
-export const getPlayerPos = (playerId: number) =>
-  [getPlayerX(playerId), getPlayerY(playerId)] as const;
+export const getPlayerPos = (playerId: number): [number, number] => [getPlayerX(playerId), getPlayerY(playerId)];
 
 /**
  * Sets X speed of player
  * @param playerId
  * @param speed
  */
-export function setPlayerSpeedX(playerId: number, speed: number) {
+export function setPlayerSpeedX(playerId: number, speed: number): void {
   globalThis.game.speedX[playerId] = speed;
 }
 
@@ -79,7 +78,7 @@ export function setPlayerSpeedX(playerId: number, speed: number) {
  * @param playerId
  * @param speed
  */
-export function setPlayerSpeedY(playerId: number, speed: number) {
+export function setPlayerSpeedY(playerId: number, speed: number): void {
   globalThis.game.speedY[playerId] = speed;
 }
 
@@ -89,11 +88,7 @@ export function setPlayerSpeedY(playerId: number, speed: number) {
  * @param speedX
  * @param speedY
  */
-export function setPlayerSpeed(
-  playerId: number,
-  speedX: number,
-  speedY: number,
-) {
+export function setPlayerSpeed(playerId: number, speedX: number, speedY: number): void {
   setPlayerSpeedX(playerId, speedX);
   setPlayerSpeedY(playerId, speedY);
 }
@@ -104,11 +99,7 @@ export function setPlayerSpeed(
  * @param speedX
  * @param speedY
  */
-export function setPlayerSpeedRel(
-  playerId: number,
-  speedX: number,
-  speedY: number,
-) {
+export function setPlayerSpeedRel(playerId: number, speedX: number, speedY: number): void {
   const [oldSpeedX, oldSpeedY] = getPlayerSpeed(playerId);
   setPlayerSpeed(playerId, oldSpeedX + speedX, oldSpeedY + speedY);
 }
@@ -117,7 +108,7 @@ export function setPlayerSpeedRel(
  * @param playerId
  * @returns Player X speed
  */
-export function getPlayerSpeedX(playerId: number) {
+export function getPlayerSpeedX(playerId: number): number {
   return game.speedX[playerId];
 }
 
@@ -125,7 +116,7 @@ export function getPlayerSpeedX(playerId: number) {
  * @param playerId
  * @returns Player Y speed
  */
-export function getPlayerSpeedY(playerId: number) {
+export function getPlayerSpeedY(playerId: number): number {
   return game.speedY[playerId];
 }
 
@@ -133,16 +124,11 @@ export function getPlayerSpeedY(playerId: number) {
  * @param playerId
  * @returns `[number, number]` array of player speed
  */
-export function getPlayerSpeed(playerId: number) {
-  return [getPlayerSpeedX(playerId), getPlayerSpeedY(playerId)] as const;
+export function getPlayerSpeed(playerId: number): [number, number] {
+  return [getPlayerSpeedX(playerId), getPlayerSpeedY(playerId)];
 }
 
-export function getStrokePower(
-  playerX: number,
-  playerY: number,
-  mouseX: number,
-  mouseY: number,
-) {
+export function getStrokePower(playerX: number, playerY: number, mouseX: number, mouseY: number): [number, number] {
   const subX = playerX - mouseX;
   const subY = playerY - mouseY;
   const distance = Math.sqrt(subX * subX + subY * subY);
@@ -159,11 +145,10 @@ export function getStrokePower(
   }
 
   const var12 = scale / distance; // TODO
-  const xy = [(mouseX - playerX) * var12, (mouseY - playerY) * var12];
-  return xy;
+  return [(mouseX - playerX) * var12, (mouseY - playerY) * var12];
 }
 
-export function isMouseInsideBall(playerId: number) {
+export function isMouseInsideBall(playerId: number): boolean {
   const playerDrawX = game.playerX[playerId];
   const playerDrawY = game.playerY[playerId];
 
@@ -172,15 +157,11 @@ export function isMouseInsideBall(playerId: number) {
   return Math.sqrt(subX * subX + subY * subY) < HALF_BALL;
 }
 
-export function doStroke(playerId: number) {
+export function doStroke(playerId: number): void {
   const { mouseX, mouseY, mod, speedX, speedY } = game;
   console.debug(`Doing stroke @ (${mouseX}, ${mouseY})`);
 
-  const [powerX, powerY] = getStrokePower(
-    ...getPlayerPos(playerId),
-    mouseX,
-    mouseY,
-  );
+  const [powerX, powerY] = getStrokePower(...getPlayerPos(playerId), mouseX, mouseY);
   setPlayerSpeed(playerId, powerX, powerY);
 
   if (mod == 1) {
@@ -195,18 +176,12 @@ export function doStroke(playerId: number) {
     setPlayerPos(playerId, speedY[playerId], -speedX[playerId]);
   }
 
-  const speed = Math.sqrt(
-    speedX[playerId] * speedX[playerId] + speedY[playerId] * speedY[playerId],
-  );
+  const speed = Math.sqrt(speedX[playerId] * speedX[playerId] + speedY[playerId] * speedY[playerId]);
   let scaledSpeed = speed / 6.5; // Some scaling? Not sure
   scaledSpeed *= scaledSpeed; // ?
 
   // This is the part where you add randomness to the shot, currently disabled
-  setPlayerSpeedRel(
-    playerId,
-    scaledSpeed / 100000.0 - 0.25,
-    scaledSpeed / 100000.0 - 0.25,
-  );
+  setPlayerSpeedRel(playerId, scaledSpeed / 100000.0 - 0.25, scaledSpeed / 100000.0 - 0.25);
 
   /*
   isLocalPlayer = isLocalPlayer;

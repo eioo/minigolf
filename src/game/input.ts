@@ -1,14 +1,11 @@
-import { doStroke, isMouseInsideBall } from "./physics";
-import { drawAimLine } from "./renderer";
+import { doStroke, isMouseInsideBall } from './physics';
+import { drawAimLine } from './renderer';
 
-export function mouseEventToPos(evt: MouseEvent) {
-  return [
-    evt.clientX - game.canvasRect.left,
-    evt.clientY - game.canvasRect.top,
-  ];
+export function mouseEventToPos(evt: MouseEvent): [number, number] {
+  return [evt.clientX - game.canvasRect.left, evt.clientY - game.canvasRect.top];
 }
 
-export function onMouseMove(evt: MouseEvent) {
+export function onMouseMove(evt: MouseEvent): void {
   if (game.gameBusy) {
     return;
   }
@@ -19,7 +16,7 @@ export function onMouseMove(evt: MouseEvent) {
   drawAimLine();
 }
 
-export function onMouseDown(evt: MouseEvent) {
+export function onMouseDown(evt: MouseEvent): void {
   const pos = mouseEventToPos(evt);
   globalThis.game.mouseX = pos[0];
   globalThis.game.mouseY = pos[1];
@@ -32,7 +29,7 @@ export function onMouseDown(evt: MouseEvent) {
     }
 
     drawAimLine();
-    console.debug("Switched shooting mode to", game.shootingMode);
+    console.debug('Switched shooting mode to', game.shootingMode);
     return;
   }
 
