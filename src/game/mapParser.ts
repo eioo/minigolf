@@ -1,7 +1,7 @@
-import { createMap, MinigolfMap } from "./minigolfMap";
-import { createTile, Tile } from "./tile";
+import { createMap, MinigolfMap } from './minigolfMap';
+import { createTile, Tile } from './tile';
 
-const mapChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+const mapChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
 function parseExpandedData(expandedMapData: string) {
   const tileCodes: number[][] = [];
@@ -9,37 +9,26 @@ function parseExpandedData(expandedMapData: string) {
 
   for (let tileY = 0; tileY < 25; tileY++) {
     for (let tileX = 0; tileX < 49; tileX++) {
-      let currentMapIndex = mapChars.indexOf(
-        expandedMapData.charAt(cursorIndex),
-      );
+      const currentMapIndex = mapChars.indexOf(expandedMapData.charAt(cursorIndex));
 
       if (!tileCodes[tileX]) {
         tileCodes[tileX] = [];
       }
 
       if (currentMapIndex <= 2) {
-        let shape;
-        let background;
-        let foreground;
-
-        shape = mapChars.indexOf(expandedMapData.charAt(cursorIndex + 1));
-        background = mapChars.indexOf(expandedMapData.charAt(cursorIndex + 2));
+        const shape = mapChars.indexOf(expandedMapData.charAt(cursorIndex + 1));
+        const background = mapChars.indexOf(expandedMapData.charAt(cursorIndex + 2));
+        let foreground: number;
 
         if (currentMapIndex == 1) {
-          foreground = mapChars.indexOf(
-            expandedMapData.charAt(cursorIndex + 3),
-          );
+          foreground = mapChars.indexOf(expandedMapData.charAt(cursorIndex + 3));
           cursorIndex += 4;
         } else {
           foreground = 0;
           cursorIndex += 3;
         }
 
-        tileCodes[tileX][tileY] =
-          currentMapIndex * 256 * 256 * 256 +
-          shape * 256 * 256 +
-          background * 256 +
-          foreground;
+        tileCodes[tileX][tileY] = currentMapIndex * 256 * 256 * 256 + shape * 256 * 256 + background * 256 + foreground;
       } else {
         if (currentMapIndex == 3) {
           // tile to west is same as current
@@ -69,14 +58,14 @@ function parseExpandedData(expandedMapData: string) {
 }
 
 function getExpandAmount(input: string, cursor: number): number {
-  let buffer = "";
+  let buffer = '';
 
   while (true) {
     const char = input.charAt(cursor);
     const isNumber = !isNaN(Number(char));
 
     if (!isNumber) {
-      return buffer === "" ? 1 : Number(buffer);
+      return buffer === '' ? 1 : Number(buffer);
     }
 
     buffer += char;
@@ -86,7 +75,7 @@ function getExpandAmount(input: string, cursor: number): number {
 
 function expandData(mapData: string) {
   // Use array for performance
-  let buffer: string[] = [];
+  const buffer: string[] = [];
 
   for (let charIndex = 0; charIndex < mapData.length; charIndex++) {
     const expandAmount = getExpandAmount(mapData, charIndex);
@@ -103,7 +92,7 @@ function expandData(mapData: string) {
     }
   }
 
-  return buffer.join("");
+  return buffer.join('');
 }
 
 function convertToTiles(mapCodes: number[][]) {
@@ -121,12 +110,7 @@ function convertToTiles(mapCodes: number[][]) {
         result[x] = [];
       }
 
-      result[x][y] = createTile(
-        shapeIndex,
-        foregroundIndex,
-        backgroundIndex,
-        isSpecialNum,
-      );
+      result[x][y] = createTile(shapeIndex, foregroundIndex, backgroundIndex, isSpecialNum);
     }
   }
 
@@ -135,7 +119,7 @@ function convertToTiles(mapCodes: number[][]) {
 
 export function decompressMap(mapData: string): MinigolfMap {
   // Old maps have categories appended after map data divided by ,
-  const expandedMapData = expandData(mapData.split(",")[0]);
+  const expandedMapData = expandData(mapData.split(',')[0]);
   const tileCodes = parseExpandedData(expandedMapData);
   const tiles = convertToTiles(tileCodes);
   return createMap(tiles);

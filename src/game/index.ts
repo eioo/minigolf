@@ -1,5 +1,6 @@
-import { decompressMap, MinigolfMap } from "./mapParser";
-import { renderMap } from "./renderer";
+import { onMouseDown, onMouseMove } from "./input";
+import { decompressMap } from "./mapParser";
+import { drawAimLine, renderMap } from "./renderer";
 import { loadSpritesheets } from "./spriteManager";
 import { parseTrack } from "./track";
 
@@ -8,21 +9,61 @@ export interface Game {
   cleanUp: () => void;
 }
 
-export async function startGame(canvas: HTMLCanvasElement): Promise<Game> {
+export async function startGame(
+  canvas: HTMLCanvasElement,
+  cursorCanvas: HTMLCanvasElement,
+): Promise<Game> {
   const ctx = canvas.getContext("2d");
+  const cursorCtx = cursorCanvas.getContext("2d");
 
-  if (!ctx) {
+  if (!ctx || !cursorCtx) {
     throw new Error("Could not get canvas drawing context");
   }
 
-  let currentMap: MinigolfMap;
+  globalThis.game = {
+    canvas,
+    canvasRect: canvas.getBoundingClientRect(),
+    cursorCanvas,
+    ctx,
+    cursorCtx,
+    playerX: [],
+    playerY: [],
+    speedX: [],
+    speedY: [],
+    mouseX: -1,
+    mouseY: -1,
+    currentPlayerId: 0,
+    shootingMode: 0,
+    mod: 0,
+    gameBusy: false,
+    cursorImgData: cursorCtx.getImageData(
+      0,
+      0,
+      cursorCanvas.width,
+      cursorCanvas.height,
+    ),
+    currentMap: null,
+  };
 
   const loadTrack = async (mapName: string) => {
+    console.debug(`Loading track "${mapName}""`);
+
+    // Fetch map
     const res = await fetch(`/assets/tracks/${mapName}.track`);
     const trackStr = await res.text();
     const track = parseTrack(trackStr);
-    currentMap = decompressMap(track.mapData);
-    await renderMap(ctx, currentMap);
+    const map = decompressMap(track.mapData);
+    globalThis.game.currentMap = map;
+
+    // Render map
+    const { startPositions } = await renderMap(map);
+    game.playerX = startPositions.map((p) => p[0]);
+    game.playerY = startPositions.map((p) => p[1]);
+
+    // Listen mouse events
+    document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("mousedown", onMouseDown);
+    drawAimLine();
   };
 
   await loadSpritesheets(ctx, [
@@ -32,26 +73,21 @@ export async function startGame(canvas: HTMLCanvasElement): Promise<Game> {
     ["special", 28, 4, 15, 15],
   ]);
 
-  let trackChangeInterval: number;
-
   fetch("/assets/tracks/tracks.json")
     .then((r) => r.json())
     .then(async (tracks: string[]) => {
       const sortedTracks = tracks.sort();
-      let currentIndex = 0;
-      const nextTrack = () => {
-        loadTrack(sortedTracks[currentIndex]);
-        currentIndex++;
-      };
-      trackChangeInterval = setInterval(() => nextTrack(), 750);
-      nextTrack();
+      const randIndex = Math.floor(Math.random() * sortedTracks.length);
+      loadTrack(sortedTracks[randIndex]);
     });
 
   return {
     loadTrack,
     cleanUp: () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      clearInterval(trackChangeInterval);
+      cursorCtx.clearRect(0, 0, canvas.width, canvas.height);
+      cursorCanvas.removeEventListener("mousedown", onMouseDown);
+      cursorCanvas.removeEventListener("mousemove", onMouseMove);
     },
   };
 }
