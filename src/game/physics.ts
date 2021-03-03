@@ -174,7 +174,7 @@ export function isMouseInsideBall(playerId: number) {
 
 export function doStroke(playerId: number) {
   const { mouseX, mouseY, mod, speedX, speedY } = game;
-  console.log(`Doing stroke @ (${mouseX}, ${mouseY})`);
+  console.debug(`Doing stroke @ (${mouseX}, ${mouseY})`);
 
   const [powerX, powerY] = getStrokePower(
     ...getPlayerPos(playerId),

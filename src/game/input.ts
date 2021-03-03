@@ -32,7 +32,7 @@ export function onMouseDown(evt: MouseEvent) {
     }
 
     drawAimLine();
-    console.log("Switched shooting mode to", game.shootingMode);
+    console.debug("Switched shooting mode to", game.shootingMode);
     return;
   }
 
