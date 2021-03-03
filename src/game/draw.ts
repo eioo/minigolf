@@ -1,6 +1,6 @@
-import { GAME_HEIGHT, GAME_WIDTH } from "./constants";
+import { GAME_HEIGHT, GAME_WIDTH } from './constants';
 
-export function setPixel(imageData: Uint8ClampedArray, x: number, y: number) {
+export function setPixel(imageData: Uint8ClampedArray, x: number, y: number): void {
   const n = Math.floor((y * GAME_WIDTH + x) * 4);
   imageData[n] = 128;
   imageData[n + 1] = 0;
@@ -13,13 +13,7 @@ export function setPixel(imageData: Uint8ClampedArray, x: number, y: number) {
  */
 const DRAW_OFFSET = 220;
 
-export function drawLine(
-  { data }: ImageData,
-  x1: number,
-  y1: number,
-  x2: number,
-  y2: number,
-) {
+export function drawLine({ data }: ImageData, x1: number, y1: number, x2: number, y2: number): void {
   const dx = Math.abs(x2 - x1),
     sx = x1 < x2 ? 1 : -1;
   const dy = Math.abs(y2 - y1),
@@ -56,13 +50,7 @@ export function drawLine(
   }
 }
 
-export function drawDashedLine(
-  imgData: ImageData,
-  x1: number,
-  x2: number,
-  deltaX: number,
-  deltaY: number,
-) {
+export function drawDashedLine(imgData: ImageData, x1: number, x2: number, deltaX: number, deltaY: number): void {
   const absDeltaX = Math.abs(deltaX);
   const absDeltaY = Math.abs(deltaY);
   const dashCount = Math.max(absDeltaX, absDeltaY) / 10;

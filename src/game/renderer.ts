@@ -1,19 +1,16 @@
-import { rgbToLong } from "../utils/color";
-import { GAME_HEIGHT, GAME_WIDTH, HALF_BALL, TILE_SIZE } from "./constants";
-import { drawDashedLine, drawLine } from "./draw";
-import { MinigolfMap } from "./minigolfMap";
-import {
-  getPlayerPos,
-  getStrokePower,
-  setPlayerPosRel,
-  setPlayerX,
-  setPlayerY,
-} from "./physics";
-import { spriteManager } from "./spriteManager";
+import { rgbToLong } from '../utils/color';
+import { GAME_HEIGHT, GAME_WIDTH, HALF_BALL, TILE_SIZE } from './constants';
+import { drawDashedLine, drawLine } from './draw';
+import { MinigolfMap } from './minigolfMap';
+import { getPlayerPos, getStrokePower, setPlayerPosRel, setPlayerX, setPlayerY } from './physics';
+import { spriteManager } from './spriteManager';
 
-export async function renderMap(map: MinigolfMap) {
-  let startPositions: number[][] = [];
+interface MapRenderResult {
+  startPositions: number[][];
+}
 
+export function renderMap(map: MinigolfMap): MapRenderResult {
+  const startPositions: number[][] = [];
   game.ctx.clearRect(0, 0, map.width * 15, map.height * 15);
 
   for (let tileY = 0; tileY < map.height; tileY++) {
@@ -30,12 +27,7 @@ export async function renderMap(map: MinigolfMap) {
 
         if (isSpecial && shape !== 4 && shape !== 6) {
           // 4 and 6 are mines
-          const foregroundPixels = game.ctx.getImageData(
-            drawAtX,
-            drawAtY,
-            15,
-            15,
-          ).data;
+          const foregroundPixels = game.ctx.getImageData(drawAtX, drawAtY, 15, 15).data;
 
           if (shape === 0 || (shape >= 24 && shape <= 27)) {
             // Is starting position
@@ -50,11 +42,7 @@ export async function renderMap(map: MinigolfMap) {
           const tileImageData = game.ctx.getImageData(drawAtX, drawAtY, 15, 15);
           const tilePixels = tileImageData.data;
           for (let i = 0; i < tilePixels.length; i += 4) {
-            if (
-              rgbToLong(tilePixels[i], tilePixels[i + 1], tilePixels[i + 2]) ==
-                0xccccff ||
-              tilePixels[i + 3] == 0
-            ) {
+            if (rgbToLong(tilePixels[i], tilePixels[i + 1], tilePixels[i + 2]) == 0xccccff || tilePixels[i + 3] == 0) {
               tileImageData.data[i] = foregroundPixels[i];
               tileImageData.data[i + 1] = foregroundPixels[i + 1];
               tileImageData.data[i + 2] = foregroundPixels[i + 2];
@@ -80,11 +68,7 @@ export async function renderMap(map: MinigolfMap) {
         const tilePixels = tileImageData.data;
 
         for (let i = 0; i < tilePixels.length; i += 4) {
-          const colour = rgbToLong(
-            tilePixels[i],
-            tilePixels[i + 1],
-            tilePixels[i + 2],
-          );
+          const colour = rgbToLong(tilePixels[i], tilePixels[i + 1], tilePixels[i + 2]);
           if (colour == 0xccccff) {
             tileImageData.data[i] = pixelsFg[i];
             tileImageData.data[i + 1] = pixelsFg[i + 1];
@@ -110,32 +94,15 @@ export async function renderMap(map: MinigolfMap) {
 export const tileToDrawPosition = (tileX: number, tileY: number) =>
   [Math.floor(tileX * TILE_SIZE), Math.floor(tileY * TILE_SIZE)] as const;
 
-export const drawBall = (playerId: number) => {
+export const drawBall = (playerId: number): void => {
   const [playerDrawX, playerDrawY] = getPlayerPos(playerId);
-  const foregroundPixels = game.cursorCtx.getImageData(
-    ...getPlayerPos(playerId),
-    15,
-    15,
-  ).data;
-  spriteManager.balls[playerId].draw(
-    game.cursorCtx,
-    playerDrawX + 1,
-    playerDrawY + 1,
-  );
+  const foregroundPixels = game.cursorCtx.getImageData(...getPlayerPos(playerId), 15, 15).data;
+  spriteManager.balls[playerId].draw(game.cursorCtx, playerDrawX + 1, playerDrawY + 1);
 
-  const tileImageData = game.cursorCtx.getImageData(
-    playerDrawX,
-    playerDrawY,
-    15,
-    15,
-  );
+  const tileImageData = game.cursorCtx.getImageData(playerDrawX, playerDrawY, 15, 15);
   const tilePixels = tileImageData.data;
   for (let i = 0; i < tilePixels.length; i += 4) {
-    if (
-      rgbToLong(tilePixels[i], tilePixels[i + 1], tilePixels[i + 2]) ==
-        0xccccff ||
-      tilePixels[i + 3] == 0
-    ) {
+    if (rgbToLong(tilePixels[i], tilePixels[i + 1], tilePixels[i + 2]) == 0xccccff || tilePixels[i + 3] == 0) {
       tileImageData.data[i] = foregroundPixels[i];
       tileImageData.data[i + 1] = foregroundPixels[i + 1];
       tileImageData.data[i + 2] = foregroundPixels[i + 2];
@@ -146,25 +113,11 @@ export const drawBall = (playerId: number) => {
   game.cursorCtx.putImageData(tileImageData, playerDrawX, playerDrawY);
 };
 
-export function drawAimLine() {
-  const {
-    playerX,
-    playerY,
-    currentPlayerId,
-    mouseX,
-    mouseY,
-    shootingMode,
-    cursorCtx,
-    cursorImgData,
-  } = game;
+export function drawAimLine(): void {
+  const { playerX, playerY, currentPlayerId, mouseX, mouseY, shootingMode, cursorCtx, cursorImgData } = game;
 
-  if (
-    playerX === undefined ||
-    playerY === undefined ||
-    mouseX === undefined ||
-    mouseY === undefined
-  ) {
-    return console.warn("No data for drawing aim line", {
+  if (playerX === undefined || playerY === undefined || mouseX === undefined || mouseY === undefined) {
+    return console.warn('No data for drawing aim line', {
       playerX,
       playerY,
       mouseX,
@@ -185,13 +138,7 @@ export function drawAimLine() {
   const y2 = playerDrawY + (power[1] * 200.0) / 6.5 + 0.5;
 
   if (shootingMode === 0) {
-    drawLine(
-      cursorImgData,
-      Math.round(x1),
-      Math.round(y1),
-      Math.round(x2),
-      Math.round(y2),
-    );
+    drawLine(cursorImgData, Math.round(x1), Math.round(y1), Math.round(x2), Math.round(y2));
   } else {
     let deltaX = x2 - x1;
     let deltaY = y2 - y1;
@@ -216,13 +163,7 @@ export function drawAimLine() {
       deltaY = oldX;
     }
 
-    drawLine(
-      cursorImgData,
-      Math.round(x1),
-      Math.round(y1),
-      Math.round(x1 + deltaX),
-      Math.round(y1 + deltaY),
-    );
+    drawLine(cursorImgData, Math.round(x1), Math.round(y1), Math.round(x1 + deltaX), Math.round(y1 + deltaY));
   }
   cursorCtx.putImageData(cursorImgData, 0, 0);
   drawBall(currentPlayerId);
@@ -231,27 +172,25 @@ export function drawAimLine() {
 export function shootDrawLoop() {
   const playerCount = 1; // TODO
 
-  let loopStuckCounter = 0;
-  let magnetStuckCounter: number[] = [];
-  let downHillStuckCounter: number[] = [];
-  let tempCoordX: number[] = [];
-  let tempCoordY: number[] = [];
-  let var10: number[] = [];
-  let tempCoord1X: number[] = [];
-  let tempCoord1Y: number[] = [];
-  let var13: number[] = [];
-  let var14: number[] = [];
-  let onHole: boolean[] = [];
-  let onLiquidOrGrassLiquid: boolean[] = [];
-  let teleported: boolean[] = [];
-  let spinningStuckCounter = [];
+  /* let loopStuckCounter = 0; */
+  const magnetStuckCounter: number[] = [];
+  const downHillStuckCounter: number[] = [];
+  const tempCoordX: number[] = [];
+  const tempCoordY: number[] = [];
+  /* const var10: number[] = []; */
+  const tempCoord1X: number[] = [];
+  const tempCoord1Y: number[] = [];
+  /* const var13: number[] = [];
+  const var14: number[] = []; */
+  const onHole: boolean[] = [];
+  const onLiquidOrGrassLiquid: boolean[] = [];
+  const teleported: boolean[] = [];
+  const spinningStuckCounter = [];
 
   for (let playerIndex = 0; playerIndex < playerCount; playerIndex++) {
     magnetStuckCounter[playerIndex] = downHillStuckCounter[playerIndex] = 0;
-    tempCoordX[playerIndex] = tempCoord1X[playerIndex] =
-      game.playerX[playerIndex];
-    tempCoordY[playerIndex] = tempCoord1Y[playerIndex] =
-      game.playerY[playerIndex];
+    tempCoordX[playerIndex] = tempCoord1X[playerIndex] = game.playerX[playerIndex];
+    tempCoordY[playerIndex] = tempCoord1Y[playerIndex] = game.playerY[playerIndex];
     onHole[playerIndex] = onLiquidOrGrassLiquid[playerIndex] = false;
     // var10[playerIndex] = this.aSynchronizedBoolArray2831[playerIndex].get() ? 2.1666666666666665D : 0.0D;
     teleported[playerIndex] = false;
