@@ -3,7 +3,4 @@ node_modules
 dist
 dist-ssr
 *.local
-public/assets/**/*.gif
-public/assets/**/*.jpg
-public/assets/**/*.png
-public/assets/**/*.track
+public/assets
