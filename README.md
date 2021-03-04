@@ -14,6 +14,8 @@ You need to download few assets from another repository.
 
 3. Copy all tracks from `tracks/` to this project `public/assets/tracks/` directory.
 
+4. Generate `tracks.json` file into `public/assets/tracks` directory. It's `string[]` of track names without ".tracks" suffix.
+
 4. Run following commands:
 
    ```
