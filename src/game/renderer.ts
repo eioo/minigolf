@@ -1,5 +1,5 @@
 import { rgbToLong } from '../utils/color';
-import { GAME_HEIGHT, GAME_WIDTH, HALF_BALL, TILE_SIZE } from './constants';
+import { GAME_HEIGHT, GAME_WIDTH, HALF_BALL, SpecialType, TILE_SIZE } from './constants';
 import { drawDashedLine, drawLine } from './draw';
 import { MinigolfMap } from './minigolfMap';
 import { getPlayerPos, getStrokePower, setPlayerPosRel, setPlayerX, setPlayerY } from './physics';
@@ -16,7 +16,8 @@ export function renderMap(map: MinigolfMap): MapRenderResult {
   for (let tileY = 0; tileY < map.height; tileY++) {
     for (let tileX = 0; tileX < map.width; tileX++) {
       const tile = map.tiles[tileX][tileY];
-      const { background, foreground, shape, isSpecial } = tile;
+      const { foreground, background, shape, special } = tile;
+      const isSpecial = SpecialType.Special === special;
 
       const drawAtX = tileX * TILE_SIZE;
       const drawAtY = tileY * TILE_SIZE;
