@@ -1,5 +1,5 @@
 import { createMap, MinigolfMap } from './minigolfMap';
-import { createTile, Tile } from './tile';
+import { Tile } from './tile';
 
 const mapChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
@@ -95,22 +95,22 @@ function expandData(mapData: string) {
   return buffer.join('');
 }
 
-function convertToTiles(mapCodes: number[][]) {
+function convertToTiles(mapCodes: number[][]): Tile[][] {
   const result: Tile[][] = [];
 
   for (let y = 0; y < 25; y++) {
     for (let x = 0; x < 49; x++) {
       const tileCode = mapCodes[x][y];
-      const isSpecialNum = Math.floor(tileCode / 16777216);
-      const shapeIndex = Math.floor(tileCode / 65536) % 256; // Becomes the SpecialIndex if isSpecialNum==2
-      const foregroundIndex = Math.floor(tileCode / 256) % 256;
-      const backgroundIndex = Math.floor(tileCode % 256);
+      const special = Math.floor(tileCode / 16777216);
+      const shape = Math.floor(tileCode / 65536) % 256; // Becomes the SpecialIndex if isSpecialNum==2
+      const foreground = Math.floor(tileCode / 256) % 256;
+      const background = Math.floor(tileCode % 256);
 
       if (!result[x]) {
         result[x] = [];
       }
 
-      result[x][y] = createTile(shapeIndex, foregroundIndex, backgroundIndex, isSpecialNum);
+      result[x][y] = new Tile(shape, foreground, background, special);
     }
   }
 
