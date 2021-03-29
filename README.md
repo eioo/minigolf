@@ -23,6 +23,12 @@ You need to download few assets from another repository.
    yarn dev
    ```
 
+## Acknowledgements
+
+- Thanks to [WorldStarHipHopX](https://github.com/WorldStarHipHopX) for providing the original source code for the game.
+- Thanks to [PhilippvK](https://github.com/PhilippvK), [pehala](https://github.com/pehala), [maitovelkkis](https://github.com/maitovelkkis), [buozyte](https://github.com/buozyte) and [officialebz](https://github.com/officialebz) for their contributions at [PhilippvK/playforia-minigolf](https://github.com/PhilippvK/playforia-minigolf).
+- Thanks to [Nokkasiili](https://github.com/nokkasiili) for doing the Rust port of the Java version and understanding/cleaning up most of the Java codebase.
+
 ## License
 
-Distributed under the MIT License. See LICENSE for more information.
+[MIT](https://github.com/eioo/minigolf/blob/main/LICENSE)
