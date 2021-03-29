@@ -1,4 +1,4 @@
-# Minigolf
+# Minigolf &middot; [![Sponsored by RARE](https://github.com/rareagency/assets/blob/main/sponsored-by-rare.svg?raw=true)](https://rare.fi/)
 
 Remake of the past Playforia.net/Aapeli.com minigolf
 
@@ -16,7 +16,7 @@ You need to download few assets from another repository.
 
 4. Generate `tracks.json` file into `public/assets/tracks` directory. It's `string[]` of track names without ".tracks" suffix.
 
-4. Run following commands:
+5. Run following commands:
 
    ```
    yarn install
