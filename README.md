@@ -1,6 +1,6 @@
 ⚠️ Not currently active, will return to this later, no ETA yet.
 
-# Minigolf &middot; [![Sponsored by RARE](https://github.com/rareagency/assets/blob/main/sponsored-by-rare.svg?raw=true)](https://rare.fi/)
+# Minigolf
 
 Remake of the past Playforia.net/Aapeli.com minigolf
 
