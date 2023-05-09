@@ -1,31 +1,26 @@
-⚠️ Not currently active, will return to this later, no ETA yet.
-
 # Minigolf
 
-Remake of the past Playforia.net/Aapeli.com minigolf
+Remake Playforia.net/Aapeli.com Minigolf game written with TypeScript and HTML canvas API.
 
-## Getting started
+### Installation & running
 
-You need to download few assets from another repository.
+1. Run:
 
-### Installation
+```
+# Clone repo
+git clone https://github.com/eioo/minigolf
+cd minigolf
 
-1. Clone this repository: [PhilippvK/playforia-minigolf](https://github.com/PhilippvK/playforia-minigolf)
+# Run prepare script (download assets)
+chmod +x ./prepare.sh
+./prepare.sh
 
-2. Copy all sprites from `assets/res/AGolf/picture/` to this project `public/assets/sprites/` directory.
+# Start app
+yarn
+yarn dev
+```
 
-3. Copy all tracks from `tracks/` to this project `public/assets/tracks/` directory.
-
-4. Generate `tracks.json` file into `public/assets/tracks` directory. It's `string[]` of track names without ".tracks" suffix.
-
-5. Run following commands:
-
-   ```
-   yarn install
-   yarn dev
-   ```
-
-## Acknowledgements
+## Thanks
 
 - Thanks to [WorldStarHipHopX](https://github.com/WorldStarHipHopX) for providing the original source code for the game.
 - Thanks to [PhilippvK](https://github.com/PhilippvK), [pehala](https://github.com/pehala), [maitovelkkis](https://github.com/maitovelkkis), [buozyte](https://github.com/buozyte) and [officialebz](https://github.com/officialebz) for their contributions at [PhilippvK/playforia-minigolf](https://github.com/PhilippvK/playforia-minigolf).
