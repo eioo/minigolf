@@ -1,38 +1,36 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Game, startGame } from "../../game";
-import { GAME_HEIGHT, GAME_WIDTH } from "../../game/constants";
-import "./styles.scss";
+import React, { useEffect, useRef } from 'react';
+import { Game, startGame } from '../../game';
+import GameCanvasLayer from './CanvasLayer';
+import './styles.scss';
 
 function GameCanvas() {
-  const [game, setGame] = useState<Game>();
+  const gameRef = useRef<Game>();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const cursorCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
+    if (gameRef.current) {
+      return;
+    }
+
     const canvas = canvasRef.current;
     const cursorCanvas = cursorCanvasRef.current;
-    if (!canvas || !cursorCanvas) return;
-    startGame(canvas, cursorCanvas).then(setGame);
+
+    if (!canvas || !cursorCanvas) {
+      return;
+    }
+
+    startGame(canvas, cursorCanvas).then((game) => (gameRef.current = game));
   }, [canvasRef]);
 
   useEffect(() => {
-    return () => game?.cleanUp();
-  }, [game]);
+    return () => gameRef.current?.cleanUp();
+  }, []);
 
   return (
     <>
-      <canvas
-        ref={canvasRef}
-        className="game-canvas"
-        width={GAME_WIDTH}
-        height={GAME_HEIGHT}
-      />
-      <canvas
-        ref={cursorCanvasRef}
-        className="game-canvas"
-        width={GAME_WIDTH}
-        height={GAME_HEIGHT}
-      />
+      <GameCanvasLayer ref={canvasRef} />
+      <GameCanvasLayer ref={cursorCanvasRef} />
     </>
   );
 }

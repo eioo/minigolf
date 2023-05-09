@@ -1,0 +1,58 @@
+@import '../../styles/theme';
+
+.button {
+  font-family: $font-family-secondary;
+  font-size: 12px;
+  box-shadow: 0 0 0 1px $grass-background;
+  z-index: 10;
+  text-align: center;
+
+  &:active {
+    background: linear-gradient(to bottom, rgb(222, 222, 222), rgb(159, 159, 159));
+    outline: 0;
+  }
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+.variant-gray {
+  background: linear-gradient(to bottom, rgb(222, 222, 222), rgb(159, 159, 159));
+  border: 1px solid #f0f0f0;
+  border-right-color: rgb(144, 144, 144);
+  border-bottom-color: rgb(144, 144, 144);
+  &:hover {
+    background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(191, 191, 191));
+  }
+}
+
+.variant-blue {
+  background: linear-gradient(to bottom, #ababfb, #7878c8);
+  border: 1px solid #c0c0ff;
+  border-right-color: #6060b0;
+  border-bottom-color: #6060b0;
+  &:hover {
+    background: linear-gradient(to bottom, #cbcbff, #9898e7);
+  }
+}
+
+.variant-yellow {
+  background: linear-gradient(to bottom, #fbfbab, #c8c878);
+  border: 1px solid #ffffc0;
+  border-right-color: #b0b060;
+  border-bottom-color: #b0b060;
+  &:hover {
+    background: linear-gradient(to bottom, #ffffcb, #e7e798);
+  }
+}
+
+.variant-red {
+  background: linear-gradient(to bottom, #fbabab, #c87878);
+  border: 1px solid #ffc0c0;
+  border-right-color: #b06060;
+  border-bottom-color: #b06060;
+  &:hover {
+    background: linear-gradient(to bottom, #ffcbcb, #e79898);
+  }
+}

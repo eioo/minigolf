@@ -1,0 +1,84 @@
+@import '../../styles/theme';
+
+.root {
+  display: flex;
+  flex-direction: column;
+  font-family: $font-family-secondary;
+
+  li {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.chat-header {
+  background: linear-gradient(to top, #d4d4d4, #ececec);
+  display: flex;
+  flex-direction: row;
+
+  button {
+    border: 0;
+    padding: 1px 4px;
+    font-size: 10px;
+    border: 1px solid #fff;
+    border-right: 1px solid #b0b0b0;
+    border-bottom: 1px solid #b0b0b0;
+    height: 15px; // This is 11px in the original game, for visibility let's use 15px
+
+    &:hover {
+      background: linear-gradient(to bottom, #fff, #f3f3f3);
+      border-right: 1px solid #a0a0cf;
+    }
+
+    &:active {
+      border: 1px solid #a0a0cf;
+      border-right: 1px solid #fff;
+      border-bottom: 1px solid #fff;
+    }
+  }
+
+  button.active {
+    background: linear-gradient(to bottom, #dcdcff, #c4c4f3);
+    border-bottom: 1px solid #a0a0cf;
+
+    &:hover {
+      background: linear-gradient(to bottom, #fcfcff, #e4e4f3);
+      border-right: 1px solid #a0a0cf;
+    }
+
+    &:active {
+      background: linear-gradient(to bottom, #fcfcff, #e4e4f3);
+    }
+  }
+}
+
+.chat-members {
+  background: white;
+  display: flex;
+  text-align: left;
+  flex-direction: column;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  height: 75px;
+
+  border: 1px solid #404040;
+  border-right: 1px solid #c0c0c0;
+  border-bottom: 1px solid #c0c0c0;
+}
+
+.chat-member {
+  width: 125px;
+  height: 15px;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: none;
+  padding-left: 18px;
+  font-size: 12px;
+
+  &.selected {
+    background: #0000ff;
+    color: white;
+  }
+}

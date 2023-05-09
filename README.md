@@ -2,9 +2,12 @@
 
 Remake Playforia.net/Aapeli.com Minigolf game written with TypeScript and HTML canvas API.
 
-### Installation & running
+### Requirements
 
-1. Run:
+- Node.js >= 16
+- Yarn
+
+### Installation & running
 
 ```
 # Clone repo
