@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from '../components/Button';
 import LobbyChat from '../components/LobbyChat';
+import Stack from '../components/Stack';
 
 function SinglePlayerLobby() {
   return (
@@ -11,32 +12,15 @@ function SinglePlayerLobby() {
     >
       <img src="/assets/sprites/bg-lobby-single.gif" draggable="false" />
 
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-        }}
-      >
+      <Stack direction="row" justifyContent="space-between" gap="10px">
         <LobbyChat players={['kalle']} />
 
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-          }}
-        >
+        <Stack justifyContent="space-between">
           {/* TODO: This "≪" doesn't look like correct character */}
           <Button variant="yellow" size="small" href="/">
             ≪ Back
           </Button>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '7px',
-            }}
-          >
+          <Stack gap="7px">
             {/* <Button size="small" style={{}}>
             Single player
             </Button> */}
@@ -49,9 +33,9 @@ function SinglePlayerLobby() {
             <Button size="small" variant="red" href="/">
               Quit
             </Button>
-          </div>
-        </div>
-      </div>
+          </Stack>
+        </Stack>
+      </Stack>
 
       <div
         style={{

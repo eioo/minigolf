@@ -1,0 +1,32 @@
+.input-wrapper {
+  height: 21px;
+  position: relative;
+  box-sizing: border-box;
+  border: 1px solid #a0a0a0;
+  border-bottom: 1px solid #fff;
+  border-right: 1px solid #fff;
+  width: 100%;
+}
+
+.text-input {
+  vertical-align: middle;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+  border: 1px solid #696969;
+  border-bottom: 1px solid #e3e3e3;
+  border-right: 1px solid #e3e3e3;
+  padding: 0 1px;
+  font-size: 12px;
+}
+
+/*
+top-left
+#a0a0a0
+#696969
+
+bottom-right
+#c3c3c3
+#fff
+*/

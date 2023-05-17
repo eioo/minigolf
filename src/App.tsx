@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route } from 'wouter';
-import { GameModeSelector } from './components/GameModeSelector';
 import { useAssetPreloader } from './hooks/useAssetPreloader';
 import './styles/styles.scss';
 import Game from './views/Game';
+import { GameModeSelect } from './views/GameModeSelect';
 import Loading from './views/Loading';
 import Lobby, { LobbyProps } from './views/Lobby';
 
@@ -17,7 +17,7 @@ function App() {
   return (
     <div className="App-container">
       <div id="game">
-        <Route path="/" component={GameModeSelector} />
+        <Route path="/" component={GameModeSelect} />
         <Route path="/lobby/:gameMode">
           {(params) => <Lobby gameMode={params.gameMode as LobbyProps['gameMode']} />}
         </Route>

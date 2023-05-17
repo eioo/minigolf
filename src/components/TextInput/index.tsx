@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { ChangeEventHandler } from 'react';
+import styles from './TextInput.module.scss';
 
-interface TextInputProps {}
+interface TextInputProps {
+  value?: string;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
+}
 
-/**
- * @todo
- */
-function TextInput() {
-  return <input type="text" />;
+function TextInput({ value, onChange }: TextInputProps) {
+  return (
+    <div className={styles['input-wrapper']}>
+      <input type="text" className={styles['text-input']} value={value} onChange={onChange} />
+    </div>
+  );
 }
 
 export default TextInput;
