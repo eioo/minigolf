@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '../components/Button';
-import GameModeCard from '../components/GameModeSelector/GameModeCard';
+import GameModeCard from '../components/GameModeCard';
 import styles from './GameModeSelect.module.scss';
 
 export function GameModeSelect() {
