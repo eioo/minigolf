@@ -1,3 +1,4 @@
+import { log } from '../utils/logger';
 import { doStroke, isMouseInsideBall } from './physics';
 import { drawAimLine } from './renderer';
 
@@ -29,7 +30,7 @@ export function onMouseDown(evt: MouseEvent): void {
     }
 
     drawAimLine();
-    console.debug('Switched shooting mode to', game.shootingMode);
+    log.debug('Switched shooting mode to', game.shootingMode);
     return;
   }
 

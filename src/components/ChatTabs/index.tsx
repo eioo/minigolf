@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { classNames } from '../../utils/classNames';
 import LanguageFlag, { LanguageType as Language } from '../LanguageFlag';
 import Stack from '../Stack';
-import styles from './ChatTab.module.scss';
+import styles from './ChatTabs.module.scss';
 
 interface ChatTabProps {
   label: string;
@@ -28,4 +28,25 @@ function ChatTab({ active = false, label, language, onClick }: ChatTabProps) {
   );
 }
 
-export default ChatTab;
+interface ChatTabsProps {
+  tabs: Language[];
+}
+
+function ChatTabs({ tabs }: ChatTabsProps) {
+  const [currentTab, setCurrentTab] = useState(0);
+
+  return (
+    <Stack direction="row" gap="2px">
+      {tabs.map((tab, tabIdx) => (
+        <ChatTab
+          key={tab}
+          label={tab}
+          active={currentTab === tabIdx}
+          onClick={() => setCurrentTab(tabIdx)}
+          language={tab}
+        />
+      ))}
+    </Stack>
+  );
+}
+export default ChatTabs;

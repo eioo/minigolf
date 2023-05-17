@@ -13,7 +13,7 @@ export function GameModeSelect() {
         <GameModeCard gameMode="Multiplayer" />
       </div>
 
-      <Button className={styles['quick-start-button']} variant="blue" size="small">
+      <Button className={styles['quick-start-button']} variant="blue" size="small" href="/game/1">
         Quick start
       </Button>
     </div>

@@ -9,6 +9,8 @@ Remake Playforia.net/Aapeli.com Minigolf game written with TypeScript and HTML c
 
 ### Installation & running
 
+Make sure port `5000` is not in use.
+
 ```
 # Clone repo
 git clone https://github.com/eioo/minigolf

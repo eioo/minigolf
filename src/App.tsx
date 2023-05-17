@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route } from 'wouter';
 import { useAssetPreloader } from './hooks/useAssetPreloader';
+import { socket } from './socket';
 import './styles/styles.scss';
+import { log } from './utils/logger';
 import Game from './views/Game';
 import { GameModeSelect } from './views/GameModeSelect';
 import Loading from './views/Loading';
@@ -9,8 +11,29 @@ import Lobby, { LobbyProps } from './views/Lobby';
 
 function App() {
   const loadingAssets = useAssetPreloader();
+  const [isConnected, setIsConnected] = useState(socket.connected);
 
-  if (loadingAssets) {
+  useEffect(() => {
+    function onConnect() {
+      log.debug('Socket connected');
+      setIsConnected(true);
+    }
+
+    function onDisconnect() {
+      log.debug('Socket disconnected');
+      setIsConnected(false);
+    }
+
+    socket.on('connect', onConnect);
+    socket.on('disconnect', onDisconnect);
+
+    return () => {
+      socket.off('connect', onConnect);
+      socket.off('disconnect', onDisconnect);
+    };
+  }, []);
+
+  if (!isConnected || loadingAssets) {
     return <Loading />;
   }
 

@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Button from '../components/Button';
 import LobbyChat from '../components/LobbyChat';
 import Stack from '../components/Stack';
+import { socket } from '../socket';
 
 function SinglePlayerLobby() {
+  useEffect(() => {
+    socket.emit('joinLobby', 'Single player');
+    return () => {
+      socket.emit('leaveLobby');
+    };
+  }, []);
+
   return (
     <div
       style={{
@@ -13,24 +21,50 @@ function SinglePlayerLobby() {
       <img src="/assets/sprites/bg-lobby-single.gif" draggable="false" />
 
       <Stack direction="row" justifyContent="space-between" gap="10px">
-        <LobbyChat players={['kalle']} />
+        <LobbyChat />
 
         <Stack justifyContent="space-between">
           {/* TODO: This "≪" doesn't look like correct character */}
-          <Button variant="yellow" size="small" href="/">
+          <Button
+            variant="yellow"
+            size="small"
+            href="/"
+            style={{
+              width: '90px',
+            }}
+          >
             ≪ Back
           </Button>
           <Stack gap="7px">
             {/* <Button size="small" style={{}}>
             Single player
             </Button> */}
-            <Button size="small" href="/lobby/dual">
+            <Button
+              size="small"
+              href="/lobby/dual"
+              style={{
+                width: '90px',
+              }}
+            >
               Dual player
             </Button>
-            <Button size="small" href="/lobby/multi">
+            <Button
+              size="small"
+              href="/lobby/multi"
+              style={{
+                width: '90px',
+              }}
+            >
               Multiplayer
             </Button>
-            <Button size="small" variant="red" href="/">
+            <Button
+              size="small"
+              variant="red"
+              href="/"
+              style={{
+                width: '90px',
+              }}
+            >
               Quit
             </Button>
           </Stack>

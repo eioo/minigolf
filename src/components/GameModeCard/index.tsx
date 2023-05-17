@@ -1,13 +1,13 @@
 import React from 'react';
-import { LobbyProps } from '../../views/Lobby';
+import { GameMode, GameModePath } from '../../types';
 import Button from '../Button';
 import styles from './GameModeCard.module.scss';
 
 interface GameModeCardProps {
-  gameMode: 'Single player' | 'Dual player' | 'Multiplayer';
+  gameMode: GameMode;
 }
 
-const GAME_MODE_TO_URL_MAP: Record<GameModeCardProps['gameMode'], LobbyProps['gameMode']> = {
+const GAME_MODE_TO_URL_MAP: Record<GameMode, GameModePath> = {
   'Single player': 'single',
   'Dual player': 'dual',
   Multiplayer: 'multi',

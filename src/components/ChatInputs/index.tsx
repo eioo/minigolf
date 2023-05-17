@@ -3,14 +3,14 @@ import Button from '../Button';
 import Stack from '../Stack';
 import TextInput from '../TextInput';
 
-interface ChatTextInputProps {
+interface ChatTextFieldProps {
   onSend: (value: string) => void;
 }
 
 /**
  * Contains chat text input & send button.
  */
-function ChatFooter({ onSend }: ChatTextInputProps) {
+function ChatTextField({ onSend }: ChatTextFieldProps) {
   const [value, setValue] = useState('');
 
   const send = () => {
@@ -34,11 +34,19 @@ function ChatFooter({ onSend }: ChatTextInputProps) {
     <Stack direction="row" gap="3px" width="100%">
       <TextInput value={value} onChange={onChange} onKeyDown={onKeyDown} />
       {/* TODO: This "≫" doesn't look like correct character */}
-      <Button size="small" variant="blue" onClick={() => send()}>
+      <Button
+        size="small"
+        variant="blue"
+        onClick={() => send()}
+        style={{
+          width: '100px',
+          flexShrink: 0,
+        }}
+      >
         ≫ Chat
       </Button>
     </Stack>
   );
 }
 
-export default ChatFooter;
+export default ChatTextField;

@@ -1,3 +1,4 @@
+import { log } from '../utils/logger';
 import { onMouseDown, onMouseMove } from './input';
 import { decompressMap } from './mapParser';
 import { drawAimLine, renderMap } from './renderer';
@@ -38,7 +39,7 @@ export async function startGame(canvas: HTMLCanvasElement, cursorCanvas: HTMLCan
   };
 
   const loadTrack = async (mapName: string) => {
-    console.debug(`Loading track "${mapName}""`);
+    log.debug(`Loading track "${mapName}""`);
 
     // Fetch map
     const res = await fetch(`/assets/tracks/${mapName}.track`);

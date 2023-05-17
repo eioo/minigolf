@@ -1,8 +1,11 @@
-import React from 'react';
-
-interface DualPlayerLobbyProps {}
+import React, { useEffect } from 'react';
+import { socket } from '../socket';
 
 function DualPlayerLobby() {
+  useEffect(() => {
+    socket.emit('joinLobby', 'Dual player');
+  }, []);
+
   return (
     <div>
       <img src="/assets/sprites/bg-lobby-dual.gif" />

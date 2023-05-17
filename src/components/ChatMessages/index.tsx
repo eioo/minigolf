@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import ChatTab from '../ChatTab';
+import React, { useEffect, useRef, useState } from 'react';
+import ChatTabs from '../ChatTabs';
 import { LanguageType as Language } from '../LanguageFlag';
 import Stack from '../Stack';
 import styles from './ChatMessages.module.scss';
 
-interface ChatMessage {
+export interface ChatMessage {
   text: string;
   color?: string;
   from?: string;
@@ -15,25 +15,21 @@ interface ChatMessagesProps {
 }
 
 function ChatMessages({ messages }: ChatMessagesProps) {
-  const [chatTabs, setChatTabs] = useState<Language[]>(['English', 'Unknown']);
-  const [currentTab, setCurrentTab] = useState(0);
+  const [tabs] = useState<Language[]>(['English', 'Unknown']);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // TODO: Should not scroll to bottom if not scrolled to bottom already.
+    if (ref.current) {
+      ref.current.scrollTop = ref.current.scrollHeight;
+    }
+  }, [messages]);
 
   return (
-    <Stack height="100%">
-      <Stack direction="row" gap="2px">
-        {chatTabs.map((tab, tabIdx) => {
-          return (
-            <ChatTab
-              key={tab}
-              label={tab}
-              active={currentTab === tabIdx}
-              onClick={() => setCurrentTab(tabIdx)}
-              language={tab}
-            />
-          );
-        })}
-      </Stack>
-      <div className={styles['chat-messages']}>
+    <Stack>
+      <ChatTabs tabs={tabs} />
+
+      <div ref={ref} className={styles['chat-messages']}>
         {messages.map(({ color = '#707070', from, text }, i) => (
           <div
             key={i}

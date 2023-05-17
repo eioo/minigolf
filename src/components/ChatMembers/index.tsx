@@ -1,15 +1,37 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { socket } from '../../socket';
+import { Player } from '../../types';
+import { classNames } from '../../utils/classNames';
 import styles from './ChatMembers.module.scss';
 
-interface ChatMembersProps {
-  players: string[];
-}
-
-function ChatMembers({ players }: ChatMembersProps) {
+function ChatMembers() {
+  const [players, setPlayers] = useState<Player[]>([]);
   const [selectedPlayer, setSelectedPlayer] = useState<string>();
-  const [membersSortMode, setMembersSortMode] = useState<
-    'registered' | 'nickname'
-  >('registered');
+  const [membersSortMode, setMembersSortMode] = useState<'registered' | 'nickname'>('registered');
+
+  useEffect(() => {
+    const onPlayers = (players: Player[]) => {
+      setPlayers(players);
+    };
+
+    const onUserJoin = (username: string) => {
+      setPlayers((old) => [...old, { username }]);
+    };
+
+    const onUserLeft = (username: string) => {
+      setPlayers((old) => old.filter((p) => p.username !== username));
+    };
+
+    socket.on('players', onPlayers);
+    socket.on('userJoined', onUserJoin);
+    socket.on('userLeft', onUserLeft);
+
+    return () => {
+      socket.off('players', onPlayers);
+      socket.off('userJoined', onUserJoin);
+      socket.off('userLeft', onUserLeft);
+    };
+  }, []);
 
   return (
     <div className={styles['chat-members-container']}>
@@ -33,15 +55,14 @@ function ChatMembers({ players }: ChatMembersProps) {
       <ul className={styles['chat-members']}>
         {players.map((player) => (
           <li
-            key={player}
-            className={`${styles['chat-member']} ${
-              selectedPlayer === player ? styles['selected'] : ''
-            }`}
-            onClick={() =>
-              setSelectedPlayer((old) => (old === player ? undefined : player))
-            }
+            key={player.username}
+            className={classNames(styles['chat-member'], {
+              [styles['selected']]: selectedPlayer === player.username,
+              [styles['self']]: player.username === `User-${socket.id.substring(0, 3)}`,
+            })}
+            onClick={() => setSelectedPlayer(selectedPlayer === player.username ? undefined : player.username)}
           >
-            {player}
+            {player.username}
           </li>
         ))}
       </ul>

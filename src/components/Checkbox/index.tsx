@@ -15,7 +15,7 @@ function Checkbox({ checked, label, large, smallFont, onChange }: CheckboxProps)
   const id = useUniqueId('checkbox');
 
   return (
-    <>
+    <div>
       <input
         className={classNames(styles.checkbox, {
           [styles.smallFont]: smallFont,
@@ -27,7 +27,7 @@ function Checkbox({ checked, label, large, smallFont, onChange }: CheckboxProps)
         onChange={onChange}
       />
       <label htmlFor={id}>{label}</label>
-    </>
+    </div>
   );
 }
 

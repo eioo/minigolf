@@ -1,3 +1,5 @@
+import { log } from '../utils/logger';
+
 interface Sprite {
   height: number;
   width: number;
@@ -8,11 +10,7 @@ interface SpriteManager {
   [sheetName: string]: Sprite[];
 }
 
-function createSprite(
-  spriteData: ImageData,
-  spriteWidth: number,
-  spriteHeight: number,
-): Sprite {
+function createSprite(spriteData: ImageData, spriteWidth: number, spriteHeight: number): Sprite {
   return {
     width: spriteWidth,
     height: spriteHeight,
@@ -25,8 +23,8 @@ function createSprite(
 async function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const image = new Image();
-    image.addEventListener("load", () => resolve(image));
-    image.addEventListener("error", reject);
+    image.addEventListener('load', () => resolve(image));
+    image.addEventListener('error', reject);
     image.src = src;
   });
 }
@@ -45,20 +43,14 @@ export async function loadSpritesheets(
   ctx: CanvasRenderingContext2D,
   spritesheets: LoadSpritesheetsInput[],
 ): Promise<Record<string, Sprite[]>> {
-  for (const [
-    sheetName,
-    spriteCount,
-    spritesPerColumn,
-    spriteWidth,
-    spriteHeight,
-  ] of spritesheets) {
+  for (const [sheetName, spriteCount, spritesPerColumn, spriteWidth, spriteHeight] of spritesheets) {
     if (sheetName in spriteManager) {
       continue;
     }
     const imageUrl = `/assets/sprites/${sheetName}.gif`;
     const sheetImage = await loadImage(imageUrl);
 
-    console.debug(`Loading spritesheet from URL: "${imageUrl}"`);
+    log.debug(`Loading spritesheet from URL: "${imageUrl}"`);
 
     try {
       spriteManager[sheetName] = new Array(spriteCount);
@@ -80,10 +72,7 @@ export async function loadSpritesheets(
       }
       ctx.clearRect(0, 0, sheetWidth, sheetHeight);
     } catch (e) {
-      console.error(
-        `Failed to load spritesheet from URL "${imageUrl}".`,
-        e.message,
-      );
+      log.error(`Failed to load spritesheet from URL "${imageUrl}".`, e.message);
     }
   }
   return spriteManager;

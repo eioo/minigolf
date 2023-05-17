@@ -74,8 +74,19 @@
   padding-left: 18px;
   font-size: 12px;
 
+  &.self {
+    color: #0000ff;
+    &.selected {
+      background: #0000ff;
+      color: white;
+    }
+  }
+
+  background: transparent;
+  color: color;
+
   &.selected {
-    background: #0000ff;
+    background: #000;
     color: white;
   }
 }

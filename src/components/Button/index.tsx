@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { CSSProperties, ReactNode } from 'react';
 import { useLocation } from 'wouter';
 import styles from './Button.module.scss';
 
@@ -15,6 +15,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
    */
   size?: 'small' | 'medium';
   href?: string;
+  style?: CSSProperties;
 }
 
 function ButtonElement({ children, size = 'medium', variant = 'gray', className, ...rest }: ButtonProps) {
@@ -26,7 +27,7 @@ function ButtonElement({ children, size = 'medium', variant = 'gray', className,
       className={`${styles.button} ${variantClassName} ${className || ''}`.trim()}
       style={{
         width: size === 'medium' ? '150px' : '100px',
-        height: size === 'medium' ? '25px' : '20px',
+        height: size === 'medium' ? '25px' : '21px',
         ...rest.style,
       }}
     >
@@ -35,14 +36,20 @@ function ButtonElement({ children, size = 'medium', variant = 'gray', className,
   );
 }
 
-function Button({ href, ...rest }: ButtonProps) {
+function Button({ href, onClick, ...rest }: ButtonProps) {
   const [, setLocation] = useLocation();
 
-  if (href) {
-    rest.onClick = () => setLocation(href);
-  }
-
-  return <ButtonElement {...rest} />;
+  return (
+    <ButtonElement
+      onClick={(evt) => {
+        if (href) {
+          setLocation(href);
+        }
+        onClick?.(evt);
+      }}
+      {...rest}
+    />
+  );
 }
 
 export default Button;

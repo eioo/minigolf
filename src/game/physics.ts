@@ -1,3 +1,4 @@
+import { log } from '../utils/logger';
 import { HALF_BALL } from './constants';
 import { shootDrawLoop } from './renderer';
 
@@ -159,7 +160,7 @@ export function isMouseInsideBall(playerId: number): boolean {
 
 export function doStroke(playerId: number): void {
   const { mouseX, mouseY, mod, speedX, speedY } = game;
-  console.debug(`Doing stroke @ (${mouseX}, ${mouseY})`);
+  log.debug(`Doing stroke @ (${mouseX}, ${mouseY})`);
 
   const [powerX, powerY] = getStrokePower(...getPlayerPos(playerId), mouseX, mouseY);
   setPlayerSpeed(playerId, powerX, powerY);

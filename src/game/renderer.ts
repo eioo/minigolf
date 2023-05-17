@@ -1,4 +1,5 @@
 import { rgbToLong } from '../utils/color';
+import { log } from '../utils/logger';
 import { GAME_HEIGHT, GAME_WIDTH, HALF_BALL, TILE_SIZE } from './constants';
 import { drawDashedLine, drawLine } from './draw';
 import { MinigolfMap } from './minigolfMap';
@@ -117,12 +118,13 @@ export function drawAimLine(): void {
   const { playerX, playerY, currentPlayerId, mouseX, mouseY, shootingMode, cursorCtx, cursorImgData } = game;
 
   if (playerX === undefined || playerY === undefined || mouseX === undefined || mouseY === undefined) {
-    return console.warn('No data for drawing aim line', {
+    log.warn('No data for drawing aim line', {
       playerX,
       playerY,
       mouseX,
       mouseY,
     });
+    return;
   }
 
   cursorImgData.data.fill(0);
