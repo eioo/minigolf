@@ -14,8 +14,10 @@ function ChatFooter({ onSend }: ChatTextInputProps) {
   const [value, setValue] = useState('');
 
   const send = () => {
-    onSend(value);
-    setValue('');
+    if (value) {
+      onSend(value);
+      setValue('');
+    }
   };
 
   const onChange = (evt: ChangeEvent<HTMLInputElement>) => {

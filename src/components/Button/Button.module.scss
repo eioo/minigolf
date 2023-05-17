@@ -1,5 +1,27 @@
 @import '../../styles/theme';
 
+@mixin button-variant($background, $background-hover, $border-top-left, $border-bottom-right) {
+  background: $background;
+  border: 1px solid $border-top-left;
+  border-right-color: $border-bottom-right;
+  border-bottom-color: $border-bottom-right;
+
+  &:active {
+    background: $background;
+  }
+
+  &:hover {
+    background: $background-hover;
+
+    &:active {
+      // Invert border colors
+      border: 1px solid $border-bottom-right;
+      border-right-color: $border-top-left;
+      border-bottom-color: $border-top-left;
+    }
+  }
+}
+
 .button {
   font-family: $font-family;
   font-size: 12px;
@@ -18,41 +40,37 @@
 }
 
 .variant-gray {
-  background: linear-gradient(to bottom, rgb(222, 222, 222), rgb(159, 159, 159));
-  border: 1px solid #f0f0f0;
-  border-right-color: rgb(144, 144, 144);
-  border-bottom-color: rgb(144, 144, 144);
-  &:hover {
-    background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(191, 191, 191));
-  }
+  @include button-variant(
+    linear-gradient(to bottom, rgb(222, 222, 222), rgb(159, 159, 159)),
+    linear-gradient(to bottom, rgb(255, 255, 255), rgb(191, 191, 191)),
+    #f0f0f0,
+    #909090
+  );
 }
 
 .variant-blue {
-  background: linear-gradient(to bottom, #ababfb, #7878c8);
-  border: 1px solid #c0c0ff;
-  border-right-color: #6060b0;
-  border-bottom-color: #6060b0;
-  &:hover {
-    background: linear-gradient(to bottom, #cbcbff, #9898e7);
-  }
+  @include button-variant(
+    linear-gradient(to bottom, #ababfb, #7878c8),
+    linear-gradient(to bottom, #cbcbff, #9898e7),
+    #c0c0ff,
+    #6060b0
+  );
 }
 
 .variant-yellow {
-  background: linear-gradient(to bottom, #fbfbab, #c8c878);
-  border: 1px solid #ffffc0;
-  border-right-color: #b0b060;
-  border-bottom-color: #b0b060;
-  &:hover {
-    background: linear-gradient(to bottom, #ffffcb, #e7e798);
-  }
+  @include button-variant(
+    linear-gradient(to bottom, #fbfbab, #c8c878),
+    linear-gradient(to bottom, #ffffcb, #e7e798),
+    #ffffc0,
+    #b0b060
+  );
 }
 
 .variant-red {
-  background: linear-gradient(to bottom, #fbabab, #c87878);
-  border: 1px solid #ffc0c0;
-  border-right-color: #b06060;
-  border-bottom-color: #b06060;
-  &:hover {
-    background: linear-gradient(to bottom, #ffcbcb, #e79898);
-  }
+  @include button-variant(
+    linear-gradient(to bottom, #fbabab, #c87878),
+    linear-gradient(to bottom, #ffcbcb, #e79898),
+    #ffc0c0,
+    #b06060
+  );
 }
