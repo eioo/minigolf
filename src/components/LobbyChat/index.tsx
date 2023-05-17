@@ -1,9 +1,9 @@
 import React from 'react';
-import Button from '../Button';
+import ChatFooter from '../ChatFooter';
 import ChatMembers from '../ChatMembers';
+import ChatMessages from '../ChatMessages';
 import Checkbox from '../Checkbox';
 import Stack from '../Stack';
-import TextInput from '../TextInput';
 
 interface LobbyChatProps {
   players: string[];
@@ -17,12 +17,26 @@ function LobbyChat({ players }: LobbyChatProps) {
         <Checkbox large label="Send as private" />
         <Checkbox large label="Ignore selected user" smallFont />
       </Stack>
-      <Stack direction="row" gap="3px" width="100%">
-        <TextInput />
-        {/* TODO: This "≫" doesn't look like correct character */}
-        <Button size="small" variant="blue">
-          ≫ Chat
-        </Button>
+
+      <Stack width="100%" gap="2px">
+        <ChatMessages
+          messages={[
+            {
+              text: '** gsddfgs created multiplayer game **',
+            },
+            {
+              color: '#00a000',
+              text: '** gsddfgs returned from game **',
+            },
+            {
+              color: '#0000f0',
+              text: 'fasdf',
+              from: 'kalle',
+            },
+          ]}
+        />
+
+        <ChatFooter onSend={(message) => console.log({ message })} />
       </Stack>
     </Stack>
   );

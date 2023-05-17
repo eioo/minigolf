@@ -16,7 +16,7 @@ const GAME_MODE_TO_URL_MAP: Record<GameModeCardProps['gameMode'], LobbyProps['ga
 function GameModeCard({ gameMode }: GameModeCardProps) {
   return (
     <div className={styles['game-mode-card']}>
-      <h2>{gameMode}</h2>
+      <h1>{gameMode}</h1>
       <Button href={`/lobby/${GAME_MODE_TO_URL_MAP[gameMode]}`}>{gameMode}</Button>
     </div>
   );

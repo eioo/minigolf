@@ -49,7 +49,7 @@ function SinglePlayerLobby() {
           style={{
             position: 'absolute',
             left: '278px',
-            top: '-15px',
+            top: '-8px',
           }}
         >
           Single player
