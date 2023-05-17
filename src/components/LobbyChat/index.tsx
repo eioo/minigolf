@@ -6,13 +6,17 @@ import ChatMessages, { ChatMessage } from '../ChatMessages';
 import Checkbox from '../Checkbox';
 import Stack from '../Stack';
 
+const MOTD: ChatMessage[] = [
+  {
+    text: 'W e l c o m e !',
+    color: '#0090a0',
+  },
+];
+
 function LobbyChat() {
-  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
-    {
-      text: 'W e l c o m e !',
-      color: '#0090a0',
-    },
-  ]);
+  const [noJoinPartMessages, setNoJoinPartMessages] = useState(false);
+  const [noGameMessages, setNoGameMessages] = useState(false); // TODO: Functionality
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>(MOTD);
 
   const addChatMessage = (msg: ChatMessage) => {
     setChatMessages((old) => [...old, msg]);
@@ -40,16 +44,20 @@ function LobbyChat() {
       });
     }
 
-    socket.on('userJoined', onUserJoined);
-    socket.on('userLeft', onUserLeft);
+    if (!noJoinPartMessages) {
+      socket.on('userJoined', onUserJoined);
+      socket.on('userLeft', onUserLeft);
+    }
     socket.on('newMessage', onNewMessage);
 
     return () => {
-      socket.off('userJoined', onUserJoined);
-      socket.off('userLeft', onUserLeft);
+      if (!noJoinPartMessages) {
+        socket.off('userJoined', onUserJoined);
+        socket.off('userLeft', onUserLeft);
+      }
       socket.off('newMessage', onNewMessage);
     };
-  }, []);
+  }, [noJoinPartMessages]);
 
   const onSend = (text: string) => {
     socket.emit('sendMessage', text);
@@ -74,8 +82,16 @@ function LobbyChat() {
           <ChatTextField onSend={onSend} />
         </Stack>
         <Stack direction="row" justifyContent="space-between" width="100%" gap="2px">
-          <Checkbox label="No join/part messages" />
-          <Checkbox label="No game messages" />
+          <Checkbox
+            label="No join/part messages"
+            checked={noJoinPartMessages}
+            onChange={(evt) => setNoJoinPartMessages(evt.currentTarget.checked)}
+          />
+          <Checkbox
+            label="No game messages"
+            checked={noGameMessages}
+            onChange={(evt) => setNoGameMessages(evt.currentTarget.checked)}
+          />
         </Stack>
       </Stack>
     </Stack>

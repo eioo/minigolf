@@ -4,7 +4,8 @@ interface LanguageFlagProps {
   language: LanguageType;
 }
 
-const LANGUAGES = ['Unknown', 'Italy', 'Germany', 'English'] as const;
+const LANGUAGES = ['Unknown', 'Italy', 'Germany', 'English'] as const; // TODO: Only has first 4 flags
+
 export type LanguageType = (typeof LANGUAGES)[number];
 
 function LanguageFlag({ language }: LanguageFlagProps) {
