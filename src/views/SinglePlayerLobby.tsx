@@ -23,22 +23,33 @@ function SinglePlayerLobby() {
           style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: '7px',
+            justifyContent: 'space-between',
           }}
         >
-          {/* This "≪" doesn't look right */}
+          {/* TODO: This "≪" doesn't look like correct character */}
           <Button variant="yellow" size="small" href="/">
             ≪ Back
           </Button>
-          {/* <Button size="small" style={{}}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '7px',
+            }}
+          >
+            {/* <Button size="small" style={{}}>
             Single player
-          </Button> */}
-          <Button size="small" href="/lobby/dual">
-            Dual player
-          </Button>
-          <Button size="small" style={{}}>
-            Multiplayer
-          </Button>
+            </Button> */}
+            <Button size="small" href="/lobby/dual">
+              Dual player
+            </Button>
+            <Button size="small" href="/lobby/multi">
+              Multiplayer
+            </Button>
+            <Button size="small" variant="red" href="/">
+              Quit
+            </Button>
+          </div>
         </div>
       </div>
 

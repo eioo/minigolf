@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
+import ChatMembers from '../ChatMembers';
+import Checkbox from '../Checkbox';
 import styles from './LobbyChat.module.scss';
 
 interface LobbyChatProps {
@@ -6,39 +8,18 @@ interface LobbyChatProps {
 }
 
 function LobbyChat({ players }: LobbyChatProps) {
-  const [selectedPlayer, setSelectedPlayer] = useState<string>();
-  const [membersSortMode, setMembersSortMode] = useState<'registered' | 'nickname'>('registered');
-
   return (
-    <div className={styles.root}>
-      <div className={styles['chat-header']}>
-        <button
-          className={membersSortMode === 'registered' ? styles.active : ''}
-          onClick={() => setMembersSortMode('registered')}
-        >
-          R
-        </button>
-        <button
-          className={membersSortMode === 'nickname' ? styles.active : ''}
-          onClick={() => setMembersSortMode('nickname')}
-          style={{
-            flexGrow: 1,
-          }}
-        >
-          Nickname
-        </button>
-      </div>
-      <ul className={styles['chat-members']}>
-        {players.map((player) => (
-          <li
-            key={player}
-            className={`${styles['chat-member']} ${selectedPlayer === player ? styles['selected'] : ''}`}
-            onClick={() => setSelectedPlayer((old) => (old === player ? undefined : player))}
-          >
-            {player}
-          </li>
-        ))}
-      </ul>
+    <div
+      className={styles.root}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '4px',
+      }}
+    >
+      <ChatMembers players={players} />
+      <Checkbox large label="Send as private" />
+      <Checkbox large label="Ignore selected user" smallFont />
     </div>
   );
 }
