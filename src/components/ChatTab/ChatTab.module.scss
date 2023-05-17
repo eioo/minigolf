@@ -1,0 +1,25 @@
+.chat-tab {
+  font-size: 12px;
+  font-weight: bold;
+  background: #c0c0c0;
+  padding: 0 14px;
+  border: 1px solid black;
+  margin-bottom: -1px;
+  z-index: 1;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  height: 14px;
+  box-sizing: border-box;
+  transform: translateY(1px);
+
+  &.active,
+  &:hover {
+    background: #e0e0e0;
+  }
+
+  &.active {
+    transform: none;
+    height: 15px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+}

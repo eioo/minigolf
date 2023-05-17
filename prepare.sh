@@ -18,6 +18,7 @@ mkdir -p ./public/assets/sprites/
 mkdir -p ./public/assets/tracks/
 
 cp "./playforia-minigolf/assets/res/AGolf/picture/"* public/assets/sprites/
+cp "./playforia-minigolf/assets/res/Shared/picture/"* public/assets/sprites/
 cp "./playforia-minigolf/tracks/tracks/"* public/assets/tracks/
 
 # Create tracks.json

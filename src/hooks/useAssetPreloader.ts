@@ -5,6 +5,7 @@ const PRELOAD_ASSETS = [
   '/assets/sprites/bg-lobby-single.gif',
   '/assets/sprites/bg-lobby-dual.gif',
   '/assets/sprites/bg-lobby-multi.gif',
+  '/assets/sprites/language-flags.png',
 ];
 
 export function useAssetPreloader() {
