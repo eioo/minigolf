@@ -14,6 +14,7 @@ body {
 
 h1 {
   font-size: 26.5px;
+  margin: 0;
 }
 
 h1,
@@ -26,14 +27,7 @@ header {
   font-family: $font-family-secondary;
 }
 
-body,
-button {
-  /* Disable smoothing */
-  font-smooth: never;
-  -webkit-font-smoothing: none;
-}
-
-.App-container {
+.app-container {
   height: 100%;
   display: flex;
   justify-content: center;

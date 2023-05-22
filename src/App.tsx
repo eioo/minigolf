@@ -5,9 +5,10 @@ import { useAssetPreloader } from './hooks/useAssetPreloader';
 import { useLocalStorageLocale } from './hooks/useLocalStorageLocale';
 import { useSocketState } from './hooks/useSocketState';
 import './styles/styles.scss';
+import { LobbyType } from './types';
 import Game from './views/Game';
 import LoadingScreen from './views/LoadingScreen';
-import Lobby, { LobbyProps } from './views/Lobby';
+import Lobby from './views/Lobby';
 import { LobbySelect } from './views/LobbySelect';
 
 function App() {
@@ -23,12 +24,10 @@ function App() {
   return (
     <>
       <LanguageSelect />
-      <div className="App-container">
+      <div className="app-container">
         <div id="game">
           <Route path="/" component={LobbySelect} />
-          <Route path="/lobby/:gameMode">
-            {(params) => <Lobby lobbyType={params.gameMode as LobbyProps['lobbyType']} />}
-          </Route>
+          <Route path="/lobby/:lobbyType">{(params) => <Lobby lobbyType={params.lobbyType as LobbyType} />}</Route>
           <Route path="/game/:gameId" component={Game} />
         </div>
       </div>
