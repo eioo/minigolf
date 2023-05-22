@@ -10,7 +10,7 @@
     background: $background;
   }
 
-  &:hover {
+  &:not(:disabled):hover {
     background: $background-hover;
 
     &:active {

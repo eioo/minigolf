@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
+import { useT } from 'talkr';
 import { classNames } from '../../utils/classNames';
 import LanguageFlag, { LanguageType as Language } from '../LanguageFlag';
 import Stack from '../Stack';
 import styles from './ChatTabs.module.scss';
 
 interface ChatTabProps {
-  label: string;
   language?: Language;
   /** @default false */
   active?: boolean;
   onClick?: () => void;
 }
 
-function ChatTab({ active = false, label, language, onClick }: ChatTabProps) {
+function ChatTab({ active = false, language, onClick }: ChatTabProps) {
+  const { T } = useT();
+
   return (
     <Stack
       className={classNames(styles['chat-tab'], {
@@ -23,7 +25,7 @@ function ChatTab({ active = false, label, language, onClick }: ChatTabProps) {
       onClick={() => onClick?.()}
     >
       {language && <LanguageFlag language={language} />}
-      {label}
+      {T(`Language_${language}`)}
     </Stack>
   );
 }
@@ -38,13 +40,7 @@ function ChatTabs({ tabs }: ChatTabsProps) {
   return (
     <Stack direction="row" gap="2px">
       {tabs.map((tab, tabIdx) => (
-        <ChatTab
-          key={tab}
-          label={tab}
-          active={currentTab === tabIdx}
-          onClick={() => setCurrentTab(tabIdx)}
-          language={tab}
-        />
+        <ChatTab key={tab} active={currentTab === tabIdx} onClick={() => setCurrentTab(tabIdx)} language={tab} />
       ))}
     </Stack>
   );

@@ -3,7 +3,7 @@ import { socket } from '../socket';
 
 function DualPlayerLobby() {
   useEffect(() => {
-    socket.emit('joinLobby', 'Dual player');
+    socket.emit('joinLobby', 'dual');
   }, []);
 
   return (

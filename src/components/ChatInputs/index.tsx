@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
+import { useT } from 'talkr';
 import Button from '../Button';
 import Stack from '../Stack';
 import TextInput from '../TextInput';
@@ -11,6 +12,7 @@ interface ChatTextFieldProps {
  * Contains chat text input & send button.
  */
 function ChatTextField({ onSend }: ChatTextFieldProps) {
+  const { T } = useT();
   const [value, setValue] = useState('');
 
   const send = () => {
@@ -33,7 +35,6 @@ function ChatTextField({ onSend }: ChatTextFieldProps) {
   return (
     <Stack direction="row" gap="3px" width="100%">
       <TextInput value={value} onChange={onChange} onKeyDown={onKeyDown} />
-      {/* TODO: This "≫" doesn't look like correct character */}
       <Button
         size="small"
         variant="blue"
@@ -43,8 +44,7 @@ function ChatTextField({ onSend }: ChatTextFieldProps) {
           flexShrink: 0,
         }}
       >
-        {/* The arrow might not be 100% exact with the original game. */}
-        {'->'} Chat
+        {T('GameChat_Say')}
       </Button>
     </Stack>
   );

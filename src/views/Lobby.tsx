@@ -1,26 +1,26 @@
 import React from 'react';
 import { useLocation } from 'wouter';
-import { GameModePath } from '../types';
+import { LobbyType } from '../types';
 import DualPlayerLobby from './DualPlayerLobby';
 import MultiplayerLobby from './MultiplayerLobby';
 import SinglePlayerLobby from './SinglePlayerLobby';
 
 export interface LobbyProps {
-  gameMode: GameModePath;
+  lobbyType: LobbyType;
 }
 
-export default function Lobby({ gameMode }: LobbyProps) {
+export default function Lobby({ lobbyType }: LobbyProps) {
   const [, setLocation] = useLocation();
 
-  if (gameMode === 'single') {
+  if (lobbyType === 'single') {
     return <SinglePlayerLobby />;
   }
 
-  if (gameMode === 'dual') {
+  if (lobbyType === 'dual') {
     return <DualPlayerLobby />;
   }
 
-  if (gameMode === 'multi') {
+  if (lobbyType === 'multi') {
     return <MultiplayerLobby />;
   }
 

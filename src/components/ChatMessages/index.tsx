@@ -15,7 +15,7 @@ interface ChatMessagesProps {
 }
 
 function ChatMessages({ messages }: ChatMessagesProps) {
-  const [tabs] = useState<Language[]>(['English', 'Unknown']);
+  const [tabs] = useState<Language[]>(['en', 'null']);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

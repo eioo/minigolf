@@ -10,6 +10,7 @@ interface StackProps {
   justifyContent?: CSSProperties['justifyContent'];
   width?: CSSProperties['width'];
   height?: CSSProperties['height'];
+  style?: CSSProperties;
   onClick?: () => void;
 }
 
@@ -22,6 +23,7 @@ function Stack({
   width,
   height,
   justifyContent,
+  style,
   onClick,
 }: StackProps) {
   return (
@@ -34,6 +36,7 @@ function Stack({
         justifyContent,
         width,
         height,
+        ...style,
       }}
       className={className}
       onClick={onClick}

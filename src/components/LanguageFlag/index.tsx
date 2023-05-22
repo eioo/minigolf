@@ -4,7 +4,11 @@ interface LanguageFlagProps {
   language: LanguageType;
 }
 
-const LANGUAGES = ['Unknown', 'Italy', 'Germany', 'English'] as const; // TODO: Only has first 4 flags
+/**
+ * Order should match with "assets/sprites/language-flags.png" sprite.
+ * @todo Only has first 4 flags
+ */
+const LANGUAGES = ['null', 'it', 'de', 'en'] as const;
 
 export type LanguageType = (typeof LANGUAGES)[number];
 

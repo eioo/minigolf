@@ -18,6 +18,7 @@
     "sass": "^1.62.1",
     "socket.io": "^4.6.1",
     "socket.io-client": "^4.6.1",
+    "talkr": "^3.4.0",
     "wouter": "^2.10.1"
   },
   "devDependencies": {

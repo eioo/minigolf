@@ -3,7 +3,7 @@ import { socket } from '../socket';
 
 function MultiplayerLobby() {
   useEffect(() => {
-    socket.emit('joinLobby', 'Multiplayer');
+    socket.emit('joinLobby', 'multi');
   }, []);
 
   return (

@@ -1,20 +1,22 @@
 import React from 'react';
+import { useT } from 'talkr';
 import Button from '../components/Button';
-import GameModeCard from '../components/GameModeCard';
-import styles from './GameModeSelect.module.scss';
+import LobbyCard from '../components/GameModeCard';
+import styles from './LobbySelect.module.scss';
 
-export function GameModeSelect() {
+export function LobbySelect() {
+  const { T } = useT();
   return (
     <div className={styles.container}>
       <img src="assets/sprites/bg-lobbyselect.gif" />
       <div className={styles['card-container']}>
-        <GameModeCard gameMode="Single player" />
-        <GameModeCard gameMode="Dual player" />
-        <GameModeCard gameMode="Multiplayer" />
+        <LobbyCard lobbyType="single" />
+        <LobbyCard lobbyType="dual" />
+        <LobbyCard lobbyType="multi" />
       </div>
 
       <Button className={styles['quick-start-button']} variant="blue" size="small" href="/game/1">
-        Quick start
+        {T('LobbySelect_QuickStart')}
       </Button>
     </div>
   );

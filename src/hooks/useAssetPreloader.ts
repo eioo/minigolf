@@ -26,5 +26,5 @@ export function useAssetPreloader() {
     });
   }, []);
 
-  return loadingAssets;
+  return { loadingAssets };
 }

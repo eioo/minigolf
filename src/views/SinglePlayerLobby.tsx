@@ -1,12 +1,23 @@
 import React, { useEffect } from 'react';
-import Button from '../components/Button';
+import { useT } from 'talkr';
+import Button, { ButtonProps } from '../components/Button';
 import LobbyChat from '../components/LobbyChat';
 import Stack from '../components/Stack';
 import { socket } from '../socket';
 
+const SIDE_BUTTON_PROPS: Partial<ButtonProps> = {
+  size: 'small',
+  style: {
+    width: '90px',
+  },
+};
+
 function SinglePlayerLobby() {
+  const { T } = useT();
+
   useEffect(() => {
-    socket.emit('joinLobby', 'Single player');
+    socket.emit('joinLobby', 'single');
+
     return () => {
       socket.emit('leaveLobby');
     };
@@ -24,49 +35,18 @@ function SinglePlayerLobby() {
         <LobbyChat />
 
         <Stack justifyContent="space-between">
-          {/* TODO: This "≪" doesn't look like correct character */}
-          <Button
-            variant="yellow"
-            size="small"
-            href="/"
-            style={{
-              width: '90px',
-            }}
-          >
-            {/* The arrow might not be 100% exact with the original game. */}
-            {'<-'} Back
+          <Button variant="yellow" href="/" {...SIDE_BUTTON_PROPS}>
+            {T('LobbyControl_Main')}
           </Button>
           <Stack gap="7px">
-            {/* <Button size="small" style={{}}>
-            Single player
-            </Button> */}
-            <Button
-              size="small"
-              href="/lobby/dual"
-              style={{
-                width: '90px',
-              }}
-            >
-              Dual player
+            <Button href="/lobby/dual" {...SIDE_BUTTON_PROPS}>
+              {T('LobbySelect_DualPlayer')}
             </Button>
-            <Button
-              size="small"
-              href="/lobby/multi"
-              style={{
-                width: '90px',
-              }}
-            >
-              Multiplayer
+            <Button href="/lobby/multi" {...SIDE_BUTTON_PROPS}>
+              {T('LobbySelect_MultiPlayer')}
             </Button>
-            <Button
-              size="small"
-              variant="red"
-              href="/"
-              style={{
-                width: '90px',
-              }}
-            >
-              Quit
+            <Button variant="red" href="/" {...SIDE_BUTTON_PROPS}>
+              {T('LobbySelect_Quit')}
             </Button>
           </Stack>
         </Stack>
@@ -87,7 +67,7 @@ function SinglePlayerLobby() {
             top: '-8px',
           }}
         >
-          Single player
+          {T('LobbySelect_SinglePlayer')}
         </h1>
       </div>
     </div>

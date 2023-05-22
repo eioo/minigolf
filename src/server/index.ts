@@ -1,16 +1,16 @@
 import { Server } from 'socket.io';
-import { GameMode, Player } from '../types';
+import { LobbyType, User } from '../types';
 import { log } from '../utils/logger';
 
 export interface ServerToClientEvents {
   userJoined: (username: string) => void;
   userLeft: (username: string) => void;
   newMessage: (text: string, from: string) => void;
-  players: (players: Player[]) => void;
+  users: (users: User[]) => void;
 }
 
 export interface ClientToServerEvents {
-  joinLobby: (gameMode: GameMode) => void;
+  joinLobby: (gameMode: LobbyType) => void;
   leaveLobby: () => void;
   sendMessage: (text: string) => void;
 }
@@ -21,7 +21,7 @@ interface InterServerEvents {
 
 interface SocketData {
   name: string;
-  lobby: GameMode;
+  lobby: LobbyType;
 }
 
 const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>(5000, {
@@ -30,9 +30,14 @@ const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEve
   },
 });
 
+function getConnectionsText() {
+  const { clientsCount } = io.engine;
+  return `(Connections: ${clientsCount})`;
+}
+
 io.on('connection', (socket) => {
   const username = `User-${socket.id.substring(0, 3)}`;
-  log.info(`"${username}" connected.`);
+  log.info(`"${username}" connected. ${getConnectionsText()}`);
   socket.data.name = username;
 
   socket.on('sendMessage', (text) => {
@@ -41,7 +46,7 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     socket.broadcast.emit('userLeft', username);
-    log.info(`"${username}" disconnected.`);
+    log.info(`"${username}" disconnected. ${getConnectionsText()}`);
   });
 
   socket.on('joinLobby', async (gameMode) => {
@@ -49,9 +54,9 @@ io.on('connection', (socket) => {
     await socket.join(gameMode);
     const roomSockets = await io.in(gameMode).fetchSockets();
     socket.emit(
-      'players',
+      'users',
       roomSockets.map((s) => ({
-        username: s.data.name,
+        name: s.data.name,
       })),
     );
     socket.to(gameMode).emit('userJoined', username);

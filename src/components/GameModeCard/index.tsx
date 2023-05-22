@@ -1,23 +1,31 @@
 import React from 'react';
-import { GameMode, GameModePath } from '../../types';
+import { useT } from 'talkr';
+import { LobbyType } from '../../types';
 import Button from '../Button';
 import styles from './GameModeCard.module.scss';
 
 interface GameModeCardProps {
-  gameMode: GameMode;
+  lobbyType: LobbyType;
 }
 
-const GAME_MODE_TO_URL_MAP: Record<GameMode, GameModePath> = {
-  'Single player': 'single',
-  'Dual player': 'dual',
-  Multiplayer: 'multi',
-};
+function GameModeCard({ lobbyType }: GameModeCardProps) {
+  const { T } = useT();
 
-function GameModeCard({ gameMode }: GameModeCardProps) {
+  const lobbyName = ((): string => {
+    switch (lobbyType) {
+      case 'single':
+        return T('LobbySelect_SinglePlayer');
+      case 'dual':
+        return T('LobbySelect_DualPlayer');
+      case 'multi':
+        return T('LobbySelect_MultiPlayer');
+    }
+  })();
+
   return (
     <div className={styles['game-mode-card']}>
-      <h1>{gameMode}</h1>
-      <Button href={`/lobby/${GAME_MODE_TO_URL_MAP[gameMode]}`}>{gameMode}</Button>
+      <h1>{lobbyName}</h1>
+      <Button href={`/lobby/${lobbyType}`}>{lobbyName}</Button>
     </div>
   );
 }
