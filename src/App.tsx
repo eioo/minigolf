@@ -2,10 +2,11 @@ import React from 'react';
 import { Route } from 'wouter';
 import LanguageSelect from './components/LanguageSelect';
 import { useAssetPreloader } from './hooks/useAssetPreloader';
+import { useLocalStorageLocale } from './hooks/useLocalStorageLocale';
 import { useSocketState } from './hooks/useSocketState';
 import './styles/styles.scss';
 import Game from './views/Game';
-import Loading from './views/Loading';
+import LoadingScreen from './views/LoadingScreen';
 import Lobby, { LobbyProps } from './views/Lobby';
 import { LobbySelect } from './views/LobbySelect';
 
@@ -13,8 +14,10 @@ function App() {
   const { loadingAssets } = useAssetPreloader();
   const { isConnected } = useSocketState();
 
+  useLocalStorageLocale();
+
   if (!isConnected || loadingAssets) {
-    return <Loading />;
+    return <LoadingScreen />;
   }
 
   return (

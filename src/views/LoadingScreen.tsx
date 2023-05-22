@@ -1,6 +1,9 @@
 import React from 'react';
+import { useT } from 'talkr';
 
-function Loading() {
+function LoadingScreen() {
+  const { T } = useT();
+
   return (
     <div
       style={{
@@ -12,9 +15,9 @@ function Loading() {
         fontWeight: 100,
       }}
     >
-      One moment please...
+      {T('Message_WaitWhile')}
     </div>
   );
 }
 
-export default Loading;
+export default LoadingScreen;

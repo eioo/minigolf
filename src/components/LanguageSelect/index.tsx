@@ -11,6 +11,11 @@ const SUPPORTED_LOCALES = ['en', 'fi', 'sv'];
 function LanguageSelect() {
   const { setLocale, locale: currentLocale } = useT();
 
+  const onClick = (locale: string) => {
+    localStorage.setItem('locale', locale);
+    setLocale(locale);
+  };
+
   return (
     <Stack
       direction="row"
@@ -25,7 +30,7 @@ function LanguageSelect() {
       {SUPPORTED_LOCALES.map((locale) => (
         <Button
           key={locale}
-          onClick={() => setLocale(locale)}
+          onClick={() => onClick(locale)}
           disabled={currentLocale === locale}
           style={{
             width: '50px',
