@@ -72,6 +72,7 @@ io.on('connection', (socket) => {
 });
 
 // Close server before reload (Vite-node)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const hot = (import.meta as any).hot;
 
 if (hot) {

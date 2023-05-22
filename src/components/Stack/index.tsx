@@ -14,6 +14,10 @@ interface StackProps {
   onClick?: () => void;
 }
 
+/**
+ * Stack component, very similar to MUIs Box component, see:
+ * https://mui.com/material-ui/react-stack/
+ */
 function Stack({
   children,
   alignItems,
