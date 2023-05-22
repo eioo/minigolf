@@ -6,7 +6,6 @@ Remake Playforia.net/Aapeli.com Minigolf game written with TypeScript and HTML c
 
 - Node.js >= 16
 - Yarn
-- FFmpeg
 
 ### Installation & running
 
