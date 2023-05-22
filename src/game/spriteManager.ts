@@ -71,7 +71,7 @@ export async function loadSpritesheets(
         );
       }
       ctx.clearRect(0, 0, sheetWidth, sheetHeight);
-    } catch (e) {
+    } catch (e: any) {
       log.error(`Failed to load spritesheet from URL "${imageUrl}".`, e.message);
     }
   }

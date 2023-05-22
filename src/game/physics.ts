@@ -160,6 +160,8 @@ export function isMouseInsideBall(playerId: number): boolean {
 
 export function doStroke(playerId: number): void {
   const { mouseX, mouseY, mod, speedX, speedY } = game;
+  const audio = new Audio('/assets/sounds/gamemove.wav');
+  audio.play();
   log.debug(`Doing stroke @ (${mouseX}, ${mouseY})`);
 
   const [powerX, powerY] = getStrokePower(...getPlayerPos(playerId), mouseX, mouseY);

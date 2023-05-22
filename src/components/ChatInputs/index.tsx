@@ -43,7 +43,8 @@ function ChatTextField({ onSend }: ChatTextFieldProps) {
           flexShrink: 0,
         }}
       >
-        ≫ Chat
+        {/* The arrow might not be 100% exact with the original game. */}
+        {'->'} Chat
       </Button>
     </Stack>
   );

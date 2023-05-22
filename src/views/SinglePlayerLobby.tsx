@@ -33,7 +33,8 @@ function SinglePlayerLobby() {
               width: '90px',
             }}
           >
-            ≪ Back
+            {/* The arrow might not be 100% exact with the original game. */}
+            {'<-'} Back
           </Button>
           <Stack gap="7px">
             {/* <Button size="small" style={{}}>
