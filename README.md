@@ -16,10 +16,6 @@ Make sure port `5000` is available.
 git clone https://github.com/eioo/minigolf
 cd minigolf
 
-# Run prepare script (download assets)
-chmod +x ./prepare.sh
-./prepare.sh
-
 # Start app
 yarn
 yarn dev
