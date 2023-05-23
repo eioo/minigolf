@@ -1,7 +1,7 @@
 import { Server } from 'socket.io';
 import { LobbyType, User } from '../types';
 import { log } from '../utils/logger';
-import { env } from './env';
+import { WS_PORT } from './env';
 
 export interface ServerToClientEvents {
   userJoined: (username: string) => void;
@@ -25,7 +25,7 @@ interface SocketData {
   lobby: LobbyType;
 }
 
-const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>(env.PORT, {
+const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>(WS_PORT, {
   cors: {
     origin: '*',
   },
@@ -88,4 +88,4 @@ if (hot) {
   });
 }
 
-log.info(`Socket.IO server started on port ${env.PORT}`);
+log.info(`Socket.IO server started on port ${WS_PORT}`);

@@ -3,6 +3,4 @@ import dotenv from 'dotenv';
 // "import.meta.env" not available here.
 dotenv.config();
 
-export const env = {
-  PORT: Number(process.env.VITE_WS_PORT || 8081),
-};
+export const WS_PORT = Number(process.env.VITE_WS_PORT || 8081);

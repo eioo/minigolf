@@ -19,7 +19,7 @@ export default defineConfig(({ mode }) => {
     ],
     server: {
       host: true,
-      port: Number(env.PORT || 8080),
+      port: Number(env.VITE_PORT || 8080),
       watch: {
         ignored: ['./src/server/**/*'],
       },

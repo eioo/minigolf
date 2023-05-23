@@ -12,9 +12,9 @@ Remake Playforia.net/Aapeli.com Minigolf game written with TypeScript, powered b
 1. _(Optional)_ Default ports used are `8080` (Vite) and `8081` (Socket.IO), these can be configured by adding `.env` file to root of this repository:
 
    ```sh
-   PORT=8080               # Vite (frontend) port
-   VITE_WS_HOST=localhost  # Socket.IO host
-   VITE_WS_PORT=8081       # Socket.IO port
+   VITE_PORT=8080          # Frontend port
+   VITE_WS_HOST=localhost  # Socket.IO server host
+   VITE_WS_PORT=8081       # Socket.IO server port
    ```
 
 2. Install and run app:
