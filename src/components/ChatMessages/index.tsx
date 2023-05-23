@@ -8,10 +8,27 @@ export interface ChatMessage {
   text: string;
   color?: string;
   from?: string;
+  to?: string;
 }
 
 interface ChatMessagesProps {
   messages: ChatMessage[];
+}
+
+function formatMessageText({ from, text, to }: ChatMessage) {
+  if (from) {
+    if (to) {
+      return `<${from} -> ${to}> ${text}`;
+    }
+
+    if (text.startsWith('/me ')) {
+      return `${from} ${text.substring(4)}`;
+    }
+
+    return `<${from}> ${text}`;
+  }
+
+  return text;
 }
 
 function ChatMessages({ messages }: ChatMessagesProps) {
@@ -30,14 +47,14 @@ function ChatMessages({ messages }: ChatMessagesProps) {
       <ChatTabs tabs={tabs} />
 
       <div ref={ref} className={styles['chat-messages']}>
-        {messages.map(({ color = '#707070', from, text }, i) => (
+        {messages.map((message, i) => (
           <div
             key={i}
             style={{
-              color,
+              color: message.color,
             }}
           >
-            {from ? `<${from}> ${text}` : text}
+            {formatMessageText(message)}
           </div>
         ))}
       </div>

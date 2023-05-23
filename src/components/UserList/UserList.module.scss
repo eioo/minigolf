@@ -85,8 +85,24 @@
   background: transparent;
   color: color;
 
+  &.ignored {
+    color: #f00000;
+  }
+
+  &.private {
+    color: #b000b0;
+  }
+
   &.selected {
     background: #000;
     color: white;
+
+    &.ignored {
+      background: #f00000;
+    }
+
+    &.private {
+      background: #b000b0;
+    }
   }
 }

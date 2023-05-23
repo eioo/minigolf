@@ -5,10 +5,16 @@ import { User } from '../../types';
 import { classNames } from '../../utils/classNames';
 import styles from './UserList.module.scss';
 
-function UserList() {
+interface UserListProps {
+  ignoredUsers: Set<string>;
+  privateUser: string | undefined;
+  selectedUser?: string;
+  setSelectedUser: (username?: string) => void;
+}
+
+function UserList({ ignoredUsers, privateUser, selectedUser, setSelectedUser }: UserListProps) {
   const { T } = useT();
   const [users, setUsers] = useState<User[]>([]);
-  const [selectedUser, setSelectedUser] = useState<string>();
   const [membersSortMode, setMembersSortMode] = useState<'registered' | 'nickname'>('registered');
 
   useEffect(() => {
@@ -63,6 +69,8 @@ function UserList() {
               key={user.name}
               className={classNames(styles['chat-member'], {
                 [styles['selected']]: isSelected,
+                [styles['ignored']]: ignoredUsers.has(user.name),
+                [styles['private']]: privateUser === user.name,
                 [styles['self']]: user.name === `User-${socket.id.substring(0, 3)}`,
               })}
               onClick={() => setSelectedUser(isSelected ? undefined : user.name)}

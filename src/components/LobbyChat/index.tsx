@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useT } from 'talkr';
-import { socket } from '../../socket';
+import { getCurrentUsername, socket } from '../../socket';
 import ChatTextField from '../ChatInputs';
 import ChatMessages, { ChatMessage } from '../ChatMessages';
 import Checkbox from '../Checkbox';
@@ -10,6 +10,9 @@ import UserList from '../UserList';
 function LobbyChat() {
   const { T } = useT();
 
+  const [selectedUser, setSelectedUser] = useState<string>();
+  const [privateUser, setPrivateUser] = useState<string>();
+  const [ignoredUsers, setIgnoredUsers] = useState(new Set<string>());
   const [noJoinPartMessages, setNoJoinPartMessages] = useState(false);
   const [noGameMessages, setNoGameMessages] = useState(false); // TODO: Functionality
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
@@ -26,22 +29,36 @@ function LobbyChat() {
   useEffect(() => {
     function onUserJoined(username: string) {
       addChatMessage({
-        text: `** ${username} joined the lobby **`,
+        text: T('Chat_Message', {
+          message: T('LobbyChat_UserJoined', {
+            username,
+          }),
+        }),
+        color: '#00a000',
       });
     }
 
     function onUserLeft(username: string) {
       addChatMessage({
-        text: `** ${username} left the lobby **`,
+        text: T('Chat_Message', {
+          message: T('LobbyChat_UserLeft', {
+            username,
+          }),
+        }),
         color: '#e00000',
       });
     }
 
-    function onNewMessage(text: string, from: string) {
+    function onMessage(text: string, from: string, isPrivate?: boolean) {
+      if (ignoredUsers.has(from)) {
+        return;
+      }
+
       addChatMessage({
         text,
         from,
-        color: '#000',
+        color: isPrivate ? '#a000a0' : '#000',
+        to: isPrivate ? getCurrentUsername() : undefined,
       });
     }
 
@@ -49,38 +66,90 @@ function LobbyChat() {
       socket.on('userJoined', onUserJoined);
       socket.on('userLeft', onUserLeft);
     }
-    socket.on('newMessage', onNewMessage);
+    socket.on('message', onMessage);
 
     return () => {
       if (!noJoinPartMessages) {
         socket.off('userJoined', onUserJoined);
         socket.off('userLeft', onUserLeft);
       }
-      socket.off('newMessage', onNewMessage);
+      socket.off('message', onMessage);
     };
-  }, [noJoinPartMessages]);
+  }, [noJoinPartMessages, ignoredUsers, privateUser]);
 
-  const onSend = (text: string) => {
+  const onSendMessage = (text: string) => {
     socket.emit('sendMessage', text);
     addChatMessage({
       text,
-      from: `User-${socket.id.substring(0, 3)}`,
+      from: getCurrentUsername(),
       color: '#0000f0',
+      to: privateUser,
+    });
+  };
+
+  const onPrivateChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    if (!selectedUser || selectedUser === getCurrentUsername()) {
+      return;
+    }
+
+    const { checked } = evt.currentTarget;
+
+    if (checked) {
+      socket.emit('setPrivateMessageUser', selectedUser);
+      setPrivateUser(selectedUser);
+    } else {
+      socket.emit('setPrivateMessageUser', undefined);
+      setPrivateUser(undefined);
+    }
+  };
+
+  const onIgnoreChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    // Messages are only hidden client-side, they are still received from the server.
+    if (!selectedUser || selectedUser === getCurrentUsername()) {
+      return;
+    }
+
+    const { checked } = evt.currentTarget;
+
+    setIgnoredUsers((old) => {
+      const newSet = new Set(old);
+      if (checked) {
+        return newSet.add(selectedUser);
+      } else {
+        newSet.delete(selectedUser);
+        return newSet;
+      }
     });
   };
 
   return (
     <Stack direction="row" gap="3px" width="100%">
       <Stack gap="4px">
-        <UserList />
-        <Checkbox large label={T('UserList_Privately')} />
-        <Checkbox large label={T('UserList_Ignore')} smallFont />
+        <UserList
+          ignoredUsers={ignoredUsers}
+          privateUser={privateUser}
+          selectedUser={selectedUser}
+          setSelectedUser={setSelectedUser}
+        />
+        <Checkbox
+          large
+          label={T('UserList_Privately')}
+          onChange={onPrivateChange}
+          checked={selectedUser === privateUser}
+        />
+        <Checkbox
+          large
+          label={T('UserList_Ignore')}
+          smallFont
+          onChange={onIgnoreChange}
+          checked={!!(selectedUser && ignoredUsers.has(selectedUser))}
+        />
       </Stack>
 
       <Stack width="100%" gap="5px">
         <Stack width="100%" gap="2px">
           <ChatMessages messages={chatMessages} />
-          <ChatTextField onSend={onSend} />
+          <ChatTextField onSend={onSendMessage} />
         </Stack>
         <Stack direction="row" justifyContent="space-between" width="100%" gap="2px">
           <Checkbox
