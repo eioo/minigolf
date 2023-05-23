@@ -1,6 +1,7 @@
 import { Server } from 'socket.io';
 import { LobbyType, User } from '../types';
 import { log } from '../utils/logger';
+import { env } from './env';
 
 export interface ServerToClientEvents {
   userJoined: (username: string) => void;
@@ -24,7 +25,7 @@ interface SocketData {
   lobby: LobbyType;
 }
 
-const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>(5000, {
+const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>(env.PORT, {
   cors: {
     origin: '*',
   },
@@ -45,25 +46,31 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
-    socket.broadcast.emit('userLeft', username);
+    if (socket.data.lobby) {
+      // Broadcast leave message to all users in the current lobby
+      socket.broadcast.emit('userLeft', username);
+    }
     log.info(`"${username}" disconnected. ${getConnectionsText()}`);
   });
 
-  socket.on('joinLobby', async (gameMode) => {
-    socket.data.lobby = gameMode;
-    await socket.join(gameMode);
-    const roomSockets = await io.in(gameMode).fetchSockets();
+  socket.on('joinLobby', async (lobbyType) => {
+    log.info(`"${socket.data.name}" joined "${lobbyType}" lobby`);
+    socket.data.lobby = lobbyType;
+    await socket.join(lobbyType);
+    const roomSockets = await io.in(lobbyType).fetchSockets();
     socket.emit(
       'users',
       roomSockets.map((s) => ({
         name: s.data.name,
       })),
     );
-    socket.to(gameMode).emit('userJoined', username);
+    // Broadcast join message to all users in the current lobby
+    socket.to(lobbyType).emit('userJoined', username);
   });
 
   socket.on('leaveLobby', () => {
     if (socket.data.lobby) {
+      log.info(`"${socket.data.name}" left "${socket.data.lobby}" lobby`);
       socket.leave(socket.data.lobby);
       socket.to(socket.data.lobby).emit('userLeft', username);
       socket.data.lobby = undefined;
@@ -81,4 +88,4 @@ if (hot) {
   });
 }
 
-log.info('Server started');
+log.info(`Socket.IO server started on port ${env.PORT}`);

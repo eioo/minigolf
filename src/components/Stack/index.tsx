@@ -15,7 +15,7 @@ interface StackProps {
 }
 
 /**
- * Stack component, very similar to MUIs Box component, see:
+ * Stack component, very similar to MUIs <Stack /> component, see:
  * https://mui.com/material-ui/react-stack/
  */
 function Stack({

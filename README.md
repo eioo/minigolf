@@ -1,6 +1,6 @@
 # Minigolf
 
-Remake Playforia.net/Aapeli.com Minigolf game written with TypeScript and HTML canvas API.
+Remake Playforia.net/Aapeli.com Minigolf game written with TypeScript, powered by React and HTML canvas API.
 
 ### Requirements
 
@@ -9,21 +9,20 @@ Remake Playforia.net/Aapeli.com Minigolf game written with TypeScript and HTML c
 
 ### Installation & running
 
-Make sure port `5000` is available.
+1. _(Optional)_ Default ports used are `8080` (Vite) and `8081` (Socket.IO), these can be configured by adding `.env` file to root of this repository:
 
-```
-# Clone repo
-git clone https://github.com/eioo/minigolf
-cd minigolf
+   ```sh
+   PORT=8080               # Vite (frontend) port
+   VITE_WS_HOST=localhost  # Socket.IO host
+   VITE_WS_PORT=8081       # Socket.IO port
+   ```
 
-# Run prepare script (download assets)
-chmod +x ./prepare.sh
-./prepare.sh
+2. Install and run app:
 
-# Start app
-yarn
-yarn dev
-```
+   ```
+   yarn
+   yarn dev
+   ```
 
 ## Thanks
 
