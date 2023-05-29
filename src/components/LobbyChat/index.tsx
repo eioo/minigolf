@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useT } from 'talkr';
 import { getCurrentUsername, socket } from '../../socket';
 import ChatTextField from '../ChatInputs';

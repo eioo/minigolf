@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import LobbyNavigation from '../components/LobbyNavigation';
 import Stack from '../components/Stack';
 import { socket } from '../socket';

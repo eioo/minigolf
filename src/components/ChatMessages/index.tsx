@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ChatTabs from '../ChatTabs';
 import { LanguageType as Language } from '../LanguageFlag';
 import Stack from '../Stack';

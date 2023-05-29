@@ -1,8 +1,8 @@
-import React, { CSSProperties, ReactNode } from 'react';
+import { ButtonHTMLAttributes, CSSProperties, ReactNode } from 'react';
 import { useLocation } from 'wouter';
 import styles from './Button.module.scss';
 
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
 
   /**

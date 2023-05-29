@@ -1,4 +1,3 @@
-import React from 'react';
 import { Route } from 'wouter';
 import LanguageSelect from './components/LanguageSelect';
 import { useAssetPreloader } from './hooks/useAssetPreloader';

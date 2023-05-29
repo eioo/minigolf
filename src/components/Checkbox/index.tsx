@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler } from 'react';
+import { ChangeEventHandler } from 'react';
 import { useUniqueId } from '../../hooks/useUniqueId';
 import { classNames } from '../../utils/classNames';
 import styles from './Checkbox.module.scss';

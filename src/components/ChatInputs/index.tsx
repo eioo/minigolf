@@ -1,4 +1,5 @@
-import React, { ChangeEvent, useState } from 'react';
+import * as React from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useT } from 'talkr';
 import Button from '../Button';
 import Stack from '../Stack';

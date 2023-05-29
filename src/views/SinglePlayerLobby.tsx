@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import LobbyChat from '../components/LobbyChat';
 import LobbyNavigation from '../components/LobbyNavigation';
 import LobbyTitle from '../components/LobbyTitle';

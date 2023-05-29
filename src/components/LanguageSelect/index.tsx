@@ -1,4 +1,3 @@
-import React from 'react';
 import { useT } from 'talkr';
 import Button from '../Button';
 import Stack from '../Stack';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useT } from 'talkr';
 import { LobbyType } from '../../types';
 import { capitalize } from '../../utils/capitalize';

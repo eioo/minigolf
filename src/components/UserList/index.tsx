@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useT } from 'talkr';
 import { socket } from '../../socket';
 import { User } from '../../types';

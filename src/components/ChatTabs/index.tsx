@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useT } from 'talkr';
 import { classNames } from '../../utils/classNames';
 import LanguageFlag, { LanguageType as Language } from '../LanguageFlag';

@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, KeyboardEventHandler } from 'react';
+import { ChangeEventHandler, KeyboardEventHandler } from 'react';
 import styles from './TextInput.module.scss';
 
 interface TextInputProps {

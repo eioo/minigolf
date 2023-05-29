@@ -10,7 +10,13 @@ module.exports = {
   env: {
     node: true,
   },
-  extends: ['eslint:recommended', 'plugin:react/recommended', 'plugin:@typescript-eslint/recommended', 'prettier'],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'prettier',
+    'plugin:react/recommended',
+    'plugin:react/jsx-runtime',
+  ],
   rules: {},
   overrides: [
     {
