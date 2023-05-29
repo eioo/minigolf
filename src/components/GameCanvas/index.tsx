@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { Game, startGame } from '../../game';
+import { Game, startGame } from '~/game';
 import GameCanvasLayer from './CanvasLayer';
 import './styles.scss';
 

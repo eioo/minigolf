@@ -1,5 +1,5 @@
-import { rgbToLong } from '../utils/color';
-import { log } from '../utils/logger';
+import { rgbToLong } from '~/utils/color';
+import { log } from '~/utils/logger';
 import { GAME_HEIGHT, GAME_WIDTH, HALF_BALL, TILE_SIZE } from './constants';
 import { drawDashedLine, drawLine } from './draw';
 import { MinigolfMap } from './minigolfMap';
@@ -245,5 +245,9 @@ int var38 = 0;
   }
   game.cursorCtx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
   drawBall(game.currentPlayerId);
-  requestAnimationFrame(shootDrawLoop);
+
+  // TODO: Not from original code, just to get the ball to stop.
+  if (game.speedX[game.currentPlayerId] > 0.2 || game.speedY[game.currentPlayerId] > 0.2) {
+    requestAnimationFrame(shootDrawLoop);
+  }
 }

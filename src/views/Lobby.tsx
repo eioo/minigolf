@@ -1,5 +1,5 @@
 import { useLocation } from 'wouter';
-import { LobbyType } from '../types';
+import { LobbyType } from '~/types';
 import DualPlayerLobby from './DualPlayerLobby';
 import MultiplayerLobby from './MultiplayerLobby';
 import SinglePlayerLobby from './SinglePlayerLobby';

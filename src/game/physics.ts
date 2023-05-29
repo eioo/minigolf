@@ -1,4 +1,4 @@
-import { log } from '../utils/logger';
+import { log } from '~/utils/logger';
 import { HALF_BALL } from './constants';
 import { shootDrawLoop } from './renderer';
 

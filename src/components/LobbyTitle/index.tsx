@@ -1,5 +1,5 @@
 import { useT } from 'talkr';
-import { LobbyType } from '../../types';
+import { LobbyType } from '~/types';
 
 interface LobbyTitleProps {
   lobbyType: LobbyType;

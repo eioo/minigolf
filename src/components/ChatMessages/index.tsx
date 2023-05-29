@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import ChatTabs from '../ChatTabs';
-import { LanguageType as Language } from '../LanguageFlag';
-import Stack from '../Stack';
+import ChatTabs from '~/components/ChatTabs';
+import { LanguageType as Language } from '~/components/LanguageFlag';
+import Stack from '~/components/Stack';
 import styles from './ChatMessages.module.scss';
 
 export interface ChatMessage {

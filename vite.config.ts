@@ -1,4 +1,5 @@
-import reactRefresh from '@vitejs/plugin-react-refresh';
+import react from '@vitejs/plugin-react';
+import { resolve } from 'path';
 import visualizer from 'rollup-plugin-visualizer';
 import { PluginOption, defineConfig, loadEnv } from 'vite';
 
@@ -7,8 +8,13 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
   return {
+    resolve: {
+      alias: {
+        '~': resolve(__dirname, 'src'),
+      },
+    },
     plugins: [
-      reactRefresh(),
+      react(),
       visualizer({
         template: 'treemap',
         open: true,

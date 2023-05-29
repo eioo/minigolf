@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import LobbyNavigation from '../components/LobbyNavigation';
-import Stack from '../components/Stack';
-import { socket } from '../socket';
+import LobbyNavigation from '~/components/LobbyNavigation';
+import Stack from '~/components/Stack';
+import { socket } from '~/socket';
 
 function MultiplayerLobby() {
   useEffect(() => {

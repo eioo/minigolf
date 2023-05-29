@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { ChangeEvent, useState } from 'react';
 import { useT } from 'talkr';
-import Button from '../Button';
-import Stack from '../Stack';
-import TextInput from '../TextInput';
+import Button from '~/components/Button';
+import Stack from '~/components/Stack';
+import TextInput from '~/components/TextInput';
 
 interface ChatTextFieldProps {
   onSend: (value: string) => void;

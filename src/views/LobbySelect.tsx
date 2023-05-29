@@ -1,6 +1,6 @@
 import { useT } from 'talkr';
-import Button from '../components/Button';
-import LobbyCard from '../components/GameModeCard';
+import Button from '~/components/Button';
+import LobbyCard from '~/components/GameModeCard';
 import styles from './LobbySelect.module.scss';
 
 export function LobbySelect() {
@@ -13,7 +13,6 @@ export function LobbySelect() {
         <LobbyCard lobbyType="dual" />
         <LobbyCard lobbyType="multi" />
       </div>
-
       <Button className={styles['quick-start-button']} variant="blue" size="small" href="/game/1">
         {T('LobbySelect_QuickStart')}
       </Button>

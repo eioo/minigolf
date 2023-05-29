@@ -1,6 +1,6 @@
 import { useT } from 'talkr';
-import { LobbyType } from '../../types';
-import Button from '../Button';
+import Button from '~/components/Button';
+import { LobbyType } from '~/types';
 import styles from './GameModeCard.module.scss';
 
 interface GameModeCardProps {

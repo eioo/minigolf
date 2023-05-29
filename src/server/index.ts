@@ -1,6 +1,6 @@
 import { Server } from 'socket.io';
-import { LobbyType, User } from '../types';
-import { log } from '../utils/logger';
+import { LobbyType, User } from '~/types';
+import { log } from '~/utils/logger';
 import { WS_PORT } from './env';
 
 export interface ServerToClientEvents {
@@ -93,8 +93,7 @@ io.on('connection', (socket) => {
 });
 
 // Close server before reload (Vite-node)
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const hot = (import.meta as any).hot;
+const { hot } = import.meta;
 
 if (hot) {
   hot.on('vite:beforeFullReload', () => {

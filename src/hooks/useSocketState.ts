@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { socket } from '../socket';
-import { log } from '../utils/logger';
+import { socket } from '~/socket';
+import { log } from '~/utils/logger';
 
 export function useSocketState() {
   const [isConnected, setIsConnected] = useState(socket.connected);

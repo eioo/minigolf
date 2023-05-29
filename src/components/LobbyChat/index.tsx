@@ -1,11 +1,11 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useT } from 'talkr';
-import { getCurrentUsername, socket } from '../../socket';
-import ChatTextField from '../ChatInputs';
-import ChatMessages, { ChatMessage } from '../ChatMessages';
-import Checkbox from '../Checkbox';
-import Stack from '../Stack';
-import UserList from '../UserList';
+import ChatTextField from '~/components/ChatInputs';
+import ChatMessages, { ChatMessage } from '~/components/ChatMessages';
+import Checkbox from '~/components/Checkbox';
+import Stack from '~/components/Stack';
+import UserList from '~/components/UserList';
+import { getCurrentUsername, socket } from '~/socket';
 
 function LobbyChat() {
   const { T } = useT();

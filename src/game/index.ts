@@ -1,4 +1,4 @@
-import { log } from '../utils/logger';
+import { log } from '~/utils/logger';
 import { onMouseDown, onMouseMove } from './input';
 import { decompressMap } from './mapParser';
 import { drawAimLine, renderMap } from './renderer';

@@ -1,8 +1,8 @@
 import { useT } from 'talkr';
-import { LobbyType } from '../../types';
-import { capitalize } from '../../utils/capitalize';
-import Button, { ButtonProps } from '../Button';
-import Stack from '../Stack';
+import Button, { ButtonProps } from '~/components/Button';
+import Stack from '~/components/Stack';
+import { LobbyType } from '~/types';
+import { capitalize } from '~/utils/capitalize';
 
 const BUTTON_PROPS: Partial<ButtonProps> = {
   size: 'small',

@@ -1,4 +1,4 @@
-import { log } from '../utils/logger';
+import { log } from '~/utils/logger';
 import { doStroke, isMouseInsideBall } from './physics';
 import { drawAimLine } from './renderer';
 

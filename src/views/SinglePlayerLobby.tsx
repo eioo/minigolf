@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
-import LobbyChat from '../components/LobbyChat';
-import LobbyNavigation from '../components/LobbyNavigation';
-import LobbyTitle from '../components/LobbyTitle';
-import Stack from '../components/Stack';
-import { socket } from '../socket';
+import LobbyChat from '~/components/LobbyChat';
+import LobbyNavigation from '~/components/LobbyNavigation';
+import LobbyTitle from '~/components/LobbyTitle';
+import Stack from '~/components/Stack';
+import { socket } from '~/socket';
 
 function SinglePlayerLobby() {
   useEffect(() => {

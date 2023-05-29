@@ -1,17 +1,14 @@
-.chat-members-container {
-  display: flex;
-  flex-direction: column;
-
+.user-list {
   li {
     display: flex;
     align-items: center;
   }
-}
 
-.chat-header {
-  background: linear-gradient(to top, #d4d4d4, #ececec);
-  display: flex;
-  flex-direction: row;
+  header {
+    background: linear-gradient(to top, #d4d4d4, #ececec);
+    display: flex;
+    flex-direction: row;
+  }
 
   button {
     border: 0;
@@ -47,62 +44,62 @@
       background: linear-gradient(to bottom, #fcfcff, #e4e4f3);
     }
   }
-}
 
-.users {
-  background: white;
-  display: flex;
-  text-align: left;
-  flex-direction: column;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  height: 75px;
+  ul {
+    background: white;
+    display: flex;
+    text-align: left;
+    flex-direction: column;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    height: 75px;
+    width: 125px;
 
-  border: 1px solid #404040;
-  border-right: 1px solid #c0c0c0;
-  border-bottom: 1px solid #c0c0c0;
-}
+    border: 1px solid #404040;
+    border-right: 1px solid #c0c0c0;
+    border-bottom: 1px solid #c0c0c0;
+  }
 
-.chat-member {
-  width: 125px;
-  height: 15px;
-  border: 0;
-  padding: 0;
-  margin: 0;
-  background: none;
-  padding-left: 18px;
-  font-size: 12px;
+  li {
+    height: 15px;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    background: none;
+    padding-left: 18px;
+    font-size: 12px;
 
-  &.self {
-    color: #0000ff;
-    &.selected {
-      background: #0000ff;
-      color: white;
+    &.self {
+      color: #0000ff;
+      &.selected {
+        background: #0000ff;
+        color: white;
+      }
     }
-  }
 
-  background: transparent;
-  color: color;
-
-  &.ignored {
-    color: #f00000;
-  }
-
-  &.private {
-    color: #b000b0;
-  }
-
-  &.selected {
-    background: #000;
-    color: white;
+    background: transparent;
+    color: color;
 
     &.ignored {
-      background: #f00000;
+      color: #f00000;
     }
 
     &.private {
-      background: #b000b0;
+      color: #b000b0;
+    }
+
+    &.selected {
+      background: #000;
+      color: white;
+
+      &.ignored {
+        background: #f00000;
+      }
+
+      &.private {
+        background: #b000b0;
+      }
     }
   }
 }

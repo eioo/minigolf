@@ -1,6 +1,6 @@
 import { useT } from 'talkr';
-import Button from '../Button';
-import Stack from '../Stack';
+import Button from '~/components/Button';
+import Stack from '~/components/Stack';
 
 const SUPPORTED_LOCALES = ['en', 'fi', 'sv'];
 

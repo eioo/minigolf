@@ -1,5 +1,5 @@
 import { useT } from 'talkr';
-import { LobbyType } from '../types';
+import { LobbyType } from '~/types';
 
 export function useLobbyName(lobbyType: LobbyType) {
   const { T } = useT();

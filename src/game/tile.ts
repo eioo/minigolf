@@ -49,20 +49,13 @@ export function createTile(
       return isSpecial && (shape == 0 || (shape >= 21 && shape <= 24));
     },
     get tileCode(): number {
-      return (
-        (isSpecialNum << 24) | (shape << 16) | (foreground << 8) | background
-      );
+      return (isSpecialNum << 24) | (shape << 16) | (foreground << 8) | background;
     },
     get isHole(): boolean {
       return isSpecial && shape == 1;
     },
     get isPassable(): boolean {
-      return !(
-        !isSpecial &&
-        (foreground === 12 ||
-          foreground === 13 ||
-          (foreground >= 16 && foreground <= 18))
-      );
+      return !(!isSpecial && (foreground === 12 || foreground === 13 || (foreground >= 16 && foreground <= 18)));
     },
   };
 }

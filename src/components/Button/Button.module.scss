@@ -1,4 +1,4 @@
-@import '../../styles/theme';
+@import '~/styles/theme';
 
 @mixin button-variant($background, $background-hover, $border-top-left, $border-bottom-right) {
   background: $background;

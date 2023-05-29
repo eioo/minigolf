@@ -1,6 +1,6 @@
 import { ChangeEventHandler } from 'react';
-import { useUniqueId } from '../../hooks/useUniqueId';
-import { classNames } from '../../utils/classNames';
+import { useUniqueId } from '~/hooks/useUniqueId';
+import { classNames } from '~/utils/classNames';
 import styles from './Checkbox.module.scss';
 
 interface CheckboxProps {

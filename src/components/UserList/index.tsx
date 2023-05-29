@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useT } from 'talkr';
-import { socket } from '../../socket';
-import { User } from '../../types';
-import { classNames } from '../../utils/classNames';
+import { socket } from '~/socket';
+import { User } from '~/types';
+import { classNames } from '~/utils/classNames';
+import Stack from '../Stack';
 import styles from './UserList.module.scss';
+
+type SortMode = 'registered' | 'nickname';
 
 interface UserListProps {
   ignoredUsers: Set<string>;
@@ -15,7 +18,7 @@ interface UserListProps {
 function UserList({ ignoredUsers, privateUser, selectedUser, setSelectedUser }: UserListProps) {
   const { T } = useT();
   const [users, setUsers] = useState<User[]>([]);
-  const [membersSortMode, setMembersSortMode] = useState<'registered' | 'nickname'>('registered');
+  const [sortMode, setSortMode] = useState<SortMode>('registered');
 
   useEffect(() => {
     const onUsers = (users: User[]) => {
@@ -42,32 +45,29 @@ function UserList({ ignoredUsers, privateUser, selectedUser, setSelectedUser }: 
   }, []);
 
   return (
-    <div className={styles['chat-members-container']}>
-      <div className={styles['chat-header']}>
-        <button
-          className={membersSortMode === 'registered' ? styles.active : ''}
-          onClick={() => setMembersSortMode('registered')}
-        >
+    <Stack className={styles['user-list']}>
+      <header>
+        <button className={sortMode === 'registered' ? styles.active : ''} onClick={() => setSortMode('registered')}>
           {T('UserList_SortByRanking')}
         </button>
         <button
-          className={membersSortMode === 'nickname' ? styles.active : ''}
-          onClick={() => setMembersSortMode('nickname')}
+          className={sortMode === 'nickname' ? styles.active : ''}
+          onClick={() => setSortMode('nickname')}
           style={{
             flexGrow: 1,
           }}
         >
           {T('UserList_SortByNick')}
         </button>
-      </div>
-      <ul className={styles.users}>
+      </header>
+      <ul>
         {users.map((user) => {
           const isSelected = selectedUser === user.name;
 
           return (
             <li
               key={user.name}
-              className={classNames(styles['chat-member'], {
+              className={classNames({
                 [styles['selected']]: isSelected,
                 [styles['ignored']]: ignoredUsers.has(user.name),
                 [styles['private']]: privateUser === user.name,
@@ -80,7 +80,7 @@ function UserList({ ignoredUsers, privateUser, selectedUser, setSelectedUser }: 
           );
         })}
       </ul>
-    </div>
+    </Stack>
   );
 }
 

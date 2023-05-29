@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useT } from 'talkr';
-import { classNames } from '../../utils/classNames';
-import LanguageFlag, { LanguageType as Language } from '../LanguageFlag';
-import Stack from '../Stack';
+import LanguageFlag, { LanguageType as Language } from '~/components/LanguageFlag';
+import Stack from '~/components/Stack';
+import { classNames } from '~/utils/classNames';
 import styles from './ChatTabs.module.scss';
 
 interface ChatTabProps {
