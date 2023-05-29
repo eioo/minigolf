@@ -28,10 +28,14 @@ function GameCanvas() {
   }, []);
 
   return (
-    <>
+    <div
+      style={{
+        position: 'relative',
+      }}
+    >
       <GameCanvasLayer ref={canvasRef} />
       <GameCanvasLayer ref={cursorCanvasRef} />
-    </>
+    </div>
   );
 }
 

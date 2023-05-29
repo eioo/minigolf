@@ -135,7 +135,7 @@ function LobbyChat() {
           large
           label={T('UserList_Privately')}
           onChange={onPrivateChange}
-          checked={selectedUser === privateUser}
+          checked={!!selectedUser && selectedUser === privateUser}
         />
         <Checkbox
           large
